@@ -21,6 +21,7 @@
     "clsx": "latest",
     "framer-motion": "latest",
     "lucide-react": "latest",
+    "mammoth": "latest",
     "next": "14.2.35",
     "next-auth": "latest",
     "pdf-parse": "1.1.1",

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ChevronLeft, FileText, GitCompare, LayoutDashboard, MessageSquare, Settings, Sparkles, Upload } from 'lucide-react';
+import { ChevronLeft, FileText, GitCompare, LayoutDashboard, MessageSquare, Settings, Sparkles, Upload, UserRoundCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -14,6 +14,7 @@ const items = [
   { href: '/proposals', label: 'AI Proposals', icon: Sparkles },
   { href: '/chatbot', label: 'AI Chatbot', icon: MessageSquare },
   { href: '/compare', label: 'Compare Tenders', icon: GitCompare },
+  { href: '/onboarding', label: 'Onboarding', icon: UserRoundCheck },
   { href: '/settings', label: 'Settings', icon: Settings }
 ];
 

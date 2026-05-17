@@ -3,17 +3,17 @@ import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
 import { analyzeTender, compareTenders, generateProposal, streamTenderChat } from './ai';
-import { extractTextFromPDF } from './pdf-parser';
+import { detectDocumentType, extractTextFromDocument } from './document-parser';
 import { prisma } from './prisma';
 
-const MAX_PDF_BYTES = 200 * 1024 * 1024 * 1024;
+const MAX_DOCUMENT_BYTES = 200 * 1024 * 1024 * 1024;
 
 const app = express();
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: MAX_PDF_BYTES },
+  limits: { fileSize: MAX_DOCUMENT_BYTES, files: 20 },
   fileFilter: (_req, file, cb) => {
-    cb(null, file.mimetype === 'application/pdf');
+    cb(null, Boolean(detectDocumentType(file.originalname, file.mimetype)));
   }
 });
 
@@ -64,51 +64,57 @@ app.get('/api/tenders/:id', async (req, res, next) => {
   }
 });
 
-app.post('/api/upload', upload.single('file'), async (req, res, next) => {
+app.post('/api/upload', upload.any(), async (req, res, next) => {
   try {
     const user = await currentUser(req);
     if (!user) return res.status(404).json({ error: 'User not found' });
-    if (!req.file) return res.status(400).json({ error: 'PDF file is required' });
+    const files = (req.files ?? []) as Express.Multer.File[];
+    if (files.length === 0) return res.status(400).json({ error: 'Upload at least one PDF, DOCX, or TXT file.' });
 
-    let text: string;
-    try {
-      text = await extractTextFromPDF(req.file.buffer);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Could not read PDF text';
-      return res.status(400).json({ error: `PDF text extraction failed: ${message}` });
+    const items = [];
+    const failures = [];
+
+    for (const file of files) {
+      try {
+        const { text } = await extractTextFromDocument(file.buffer, file.originalname, file.mimetype);
+        const tender = await prisma.tender.create({
+          data: {
+            userId: user.id,
+            title: file.originalname.replace(/\.(pdf|docx|txt)$/i, ''),
+            fileName: file.originalname,
+            fileContent: text,
+            status: 'analyzing'
+          }
+        });
+
+        void analyzeTender(text).then(async analysis => {
+          await prisma.tender.update({
+            where: { id: tender.id },
+            data: {
+              analysis,
+              status: 'analyzed',
+              summary: analysis.summary,
+              deadline: analysis.deadline ? new Date(analysis.deadline) : null,
+              budget: analysis.budget,
+              category: analysis.category,
+              eligibility: analysis.eligibility,
+              risks: analysis.risks,
+              title: analysis.title || tender.title
+            }
+          });
+        }).catch(async error => {
+          console.error(error);
+          await prisma.tender.update({ where: { id: tender.id }, data: { status: 'analysis_failed' } }).catch(console.error);
+        });
+
+        items.push({ id: tender.id, fileName: file.originalname, status: tender.status });
+      } catch (error) {
+        failures.push({ fileName: file.originalname, error: error instanceof Error ? error.message : 'Extraction failed' });
+      }
     }
 
-    const tender = await prisma.tender.create({
-      data: {
-        userId: user.id,
-        title: req.file.originalname.replace(/\.pdf$/i, ''),
-        fileName: req.file.originalname,
-        fileContent: text,
-        status: 'analyzing'
-      }
-    });
-
-    void analyzeTender(text).then(async analysis => {
-      await prisma.tender.update({
-        where: { id: tender.id },
-        data: {
-          analysis,
-          status: 'analyzed',
-          summary: analysis.summary,
-          deadline: analysis.deadline ? new Date(analysis.deadline) : null,
-          budget: analysis.budget,
-          category: analysis.category,
-          eligibility: analysis.eligibility,
-          risks: analysis.risks,
-          title: analysis.title || tender.title
-        }
-      });
-    }).catch(async error => {
-      console.error(error);
-      await prisma.tender.update({ where: { id: tender.id }, data: { status: 'analysis_failed' } }).catch(console.error);
-    });
-
-    res.status(202).json({ id: tender.id, status: tender.status });
+    if (items.length === 0) return res.status(400).json({ error: failures.map(f => `${f.fileName}: ${f.error}`).join(' | ') });
+    res.status(202).json({ id: items[0].id, status: items.length === 1 ? items[0].status : 'batch_uploaded', items, failures });
   } catch (error) {
     next(error);
   }
