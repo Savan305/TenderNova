@@ -7,7 +7,7 @@ import { formatDate } from '@/lib/utils';
 import { RiskBadge } from '@/components/tender/RiskBadge';
 import { useToast } from '@/components/ui/Toast';
 
-const columns = ['analyzing', 'analyzed', 'proposal', 'submitted', 'won'];
+const columns = ['ai_analyzing', 'completed', 'proposal', 'submitted', 'won'];
 
 export function TenderManager({ initialTenders }: { initialTenders: any[] }) {
   const [tenders, setTenders] = useState(initialTenders);
@@ -49,7 +49,7 @@ export function TenderManager({ initialTenders }: { initialTenders: any[] }) {
           </label>
           <select value={status} onChange={event => setStatus(event.target.value)} className="rounded-lg border border-white/10 bg-[#111827] px-4 py-3 text-sm outline-none">
             <option value="all">All statuses</option>
-            {['analyzing', 'analyzed', 'analysis_failed', 'proposal', 'submitted', 'won', 'lost', 'archived'].map(item => <option key={item} value={item}>{item}</option>)}
+            {['ai_analyzing', 'completed', 'analysis_failed', 'proposal', 'submitted', 'won', 'lost', 'archived'].map(item => <option key={item} value={item}>{item}</option>)}
           </select>
         </div>
       </div>

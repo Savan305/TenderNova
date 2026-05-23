@@ -142,7 +142,7 @@ app.post('/api/analyze', async (req, res, next) => {
       where: { id: tender.id },
       data: {
         analysis,
-        status: 'analyzed',
+        status: 'completed',
         summary: analysis.summary,
         deadline: analysis.deadline ? new Date(analysis.deadline) : null,
         budget: analysis.budget,
@@ -171,9 +171,14 @@ app.get('/api/proposals', async (req, res, next) => {
 app.post('/api/proposals', async (req, res, next) => {
   try {
     const user = await currentUser(req);
-    const tender = await prisma.tender.findUnique({ where: { id: req.body.tenderId } });
+    const tender = await prisma.tender.findFirst({ where: { id: req.body.tenderId, userId: user?.id } });
     if (!user || !tender) return res.status(404).json({ error: 'Not found' });
-    const content = await generateProposal(tender.fileContent, tender.analysis);
+    let analysis: any = tender.analysis;
+    if (!analysis) {
+      analysis = await analyzeTender(tender.fileContent);
+      await prisma.tender.update({ where: { id: tender.id }, data: { analysis, status: 'completed' } });
+    }
+    const content = await generateProposal(tender.fileContent, analysis);
     const proposal = await prisma.proposal.create({
       data: { userId: user.id, tenderId: tender.id, title: `${tender.title} Proposal`, content }
     });
@@ -197,9 +202,11 @@ app.put('/api/proposals/:id', async (req, res, next) => {
 
 app.post('/api/compare', async (req, res, next) => {
   try {
-    const tenders = await prisma.tender.findMany({ where: { id: { in: req.body.tenderIds ?? [] } } });
+    const user = await currentUser(req);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const tenders = await prisma.tender.findMany({ where: { id: { in: req.body.tenderIds ?? [] }, userId: user.id } });
     if (tenders.length < 2) return res.status(400).json({ error: 'Select at least two tenders' });
-    res.json(await compareTenders(tenders.map(t => ({ title: t.title, analysis: t.analysis }))));
+    res.json(await compareTenders(tenders.map(t => ({ id: t.id, title: t.title, summary: t.summary, budget: t.budget, deadline: t.deadline, category: t.category, analysis: t.analysis }))));
   } catch (error) {
     next(error);
   }

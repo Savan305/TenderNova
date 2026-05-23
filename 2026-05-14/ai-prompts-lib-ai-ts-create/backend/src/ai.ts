@@ -2,6 +2,16 @@ import 'dotenv/config';
 import Anthropic from '@anthropic-ai/sdk';
 
 type ChatMessage = { role: string; content: string };
+type TenderForComparison = {
+  id: string;
+  title: string;
+  summary?: string | null;
+  budget?: string | null;
+  deadline?: string | Date | null;
+  category?: string | null;
+  analysis: any;
+  scorecard?: Record<string, unknown>;
+};
 
 const provider = (process.env.AI_PROVIDER ?? 'anthropic').toLowerCase();
 const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-20250514';
@@ -56,6 +66,21 @@ async function completeText(messages: ChatMessage[], maxTokens: number, system?:
     messages: messages.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
   });
   return anthropicText(response);
+}
+
+function parseJsonResponse(text: string) {
+  const trimmed = text.trim();
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  const candidate = fenced?.[1]?.trim() ?? trimmed;
+
+  try {
+    return JSON.parse(candidate);
+  } catch {
+    const start = candidate.indexOf('{');
+    const end = candidate.lastIndexOf('}');
+    if (start >= 0 && end > start) return JSON.parse(candidate.slice(start, end + 1));
+    throw new Error('AI returned invalid JSON');
+  }
 }
 
 export async function streamTenderChat(messages: ChatMessage[], tenderText: string) {
@@ -162,7 +187,7 @@ export async function analyzeTender(text: string) {
 }
 Tender text: ${text.slice(0, 8000)}`
   }], 2000);
-  return JSON.parse(content);
+  return parseJsonResponse(content);
 }
 
 export async function generateProposal(tenderText: string, analysis: any) {
@@ -180,10 +205,10 @@ export async function chatWithTender(messages: ChatMessage[], tenderText: string
   return completeText(messages, 1000, system);
 }
 
-export async function compareTenders(tenders: {title: string, analysis: any}[]) {
+export async function compareTenders(tenders: TenderForComparison[]) {
   const content = await completeText([{
     role: 'user',
-    content: `Compare these tenders and return ONLY valid JSON:
+    content: `Compare these tenders using their provided ids and scorecards. Return ONLY valid JSON. Each comparison row must be specific to that tender, with unique pros, cons, and business reasoning:
 {
   "recommendation": "which tender to prioritize and why",
   "winnerTenderId": "id",
@@ -209,5 +234,5 @@ export async function compareTenders(tenders: {title: string, analysis: any}[]) 
 }
 Tenders: ${JSON.stringify(tenders)}`
   }], 2000);
-  return JSON.parse(content);
+  return parseJsonResponse(content);
 }

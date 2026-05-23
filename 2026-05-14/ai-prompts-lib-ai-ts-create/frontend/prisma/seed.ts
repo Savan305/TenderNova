@@ -83,7 +83,7 @@ async function main() {
         title: analysis.title,
         fileName: `${analysis.title}.pdf`,
         fileContent: `${analysis.title}\n${analysis.summary}\nRequirements: ${JSON.stringify(analysis.requirements)}`,
-        status: 'analyzed',
+        status: 'completed',
         summary: analysis.summary,
         deadline: new Date(analysis.deadline),
         budget: analysis.budget,

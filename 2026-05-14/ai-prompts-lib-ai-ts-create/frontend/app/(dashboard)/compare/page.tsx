@@ -17,7 +17,21 @@ export default function ComparePage() {
     fetch('/api/tenders').then(r => r.json()).then(data => setTenders(data.items));
   }, []);
   const selectedTenders = useMemo(() => tenders.filter(t => selected.includes(t.id)), [selected, tenders]);
-  const chartData = selectedTenders.map(t => ({ tender: t.title.slice(0, 14), eligibility: (t.eligibility?.score ?? 70), budget: 70, timeline: 60, risk: 100 - ((t.risks?.length ?? 1) * 15) }));
+  const chartRows = result?.comparison ?? selectedTenders.map(t => ({
+    tenderId: t.id,
+    title: t.title,
+    eligibilityMatch: t.eligibility?.score ?? t.aiScore ?? 0,
+    budgetFit: t.budget ? 65 : 0,
+    timelineFit: t.deadline ? 55 : 0,
+    risk: 100 - ((t.risks?.length ?? 0) * 15)
+  }));
+  const chartData = chartRows.map((row: any) => ({
+    tender: row.title.slice(0, 14),
+    eligibility: row.eligibilityMatch ?? 0,
+    budget: row.budgetFit ?? 0,
+    timeline: row.timelineFit ?? 0,
+    risk: row.risk ?? (row.riskLevel === 'high' ? 35 : row.riskLevel === 'medium' ? 65 : 85)
+  }));
 
   async function compare() {
     if (selected.length < 2) return toast('Select at least two tenders', 'error');
@@ -42,7 +56,7 @@ export default function ComparePage() {
         <div className="space-y-5">
           {result?.recommendation && <div className="rounded-lg border border-cyanGlow/30 bg-cyanGlow/10 p-5"><h2 className="font-semibold text-cyan-100">AI recommendation</h2><p className="mt-2 text-slate-200">{result.recommendation}</p></div>}
           <div className="glass rounded-lg p-5"><h2 className="font-semibold">Metrics radar</h2><div className="mt-4 h-80">{mounted ? <ResponsiveContainer><RadarChart data={chartData}><PolarGrid /><PolarAngleAxis dataKey="tender" /><Tooltip />{['eligibility', 'budget', 'timeline', 'risk'].map((key, index) => <Radar key={key} dataKey={key} stroke={['#06B6D4', '#6366F1', '#22C55E', '#F59E0B'][index]} fill={['#06B6D4', '#6366F1', '#22C55E', '#F59E0B'][index]} fillOpacity={0.08} />)}</RadarChart></ResponsiveContainer> : null}</div></div>
-          <div className="glass overflow-x-auto rounded-lg p-5"><table className="w-full text-left text-sm"><thead className="text-slate-400"><tr><th className="py-3">Tender</th><th>Score</th><th>Pros</th><th>Cons</th><th>Winner</th></tr></thead><tbody>{(result?.comparison ?? selectedTenders).map((row: any) => <tr key={row.tenderId ?? row.id ?? row.title} className="border-t border-white/10"><td className="py-3">{row.title}</td><td>{row.score ?? row.eligibility?.score ?? 72}</td><td>{(row.pros ?? ['Strong fit']).join(', ')}</td><td>{(row.cons ?? ['Review terms']).join(', ')}</td><td>{result?.winnerTenderId === row.tenderId ? <span className="rounded-full bg-emeraldGlow/15 px-2 py-1 text-emerald-200">Best</span> : ''}</td></tr>)}</tbody></table></div>
+          <div className="glass overflow-x-auto rounded-lg p-5"><table className="w-full text-left text-sm"><thead className="text-slate-400"><tr><th className="py-3">Tender</th><th>Score</th><th>Pros</th><th>Cons</th><th>Winner</th></tr></thead><tbody>{(result?.comparison ?? selectedTenders).map((row: any) => <tr key={row.tenderId ?? row.id ?? row.title} className="border-t border-white/10"><td className="py-3">{row.title}</td><td>{row.score ?? row.eligibility?.score ?? '-'}</td><td>{(row.pros ?? ['Run comparison to calculate tender-specific pros']).join(', ')}</td><td>{(row.cons ?? ['Run comparison to calculate tender-specific cons']).join(', ')}</td><td>{result?.winnerTenderId === row.tenderId ? <span className="rounded-full bg-emeraldGlow/15 px-2 py-1 text-emerald-200">Best</span> : ''}</td></tr>)}</tbody></table></div>
         </div>
       </div>
     </div>
