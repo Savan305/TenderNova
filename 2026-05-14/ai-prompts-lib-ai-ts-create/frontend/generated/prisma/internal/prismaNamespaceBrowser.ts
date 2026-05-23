@@ -53,7 +53,15 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Tender: 'Tender',
-  Proposal: 'Proposal'
+  Proposal: 'Proposal',
+  Workspace: 'Workspace',
+  TenderAnalysis: 'TenderAnalysis',
+  ChatMessage: 'ChatMessage',
+  Subscription: 'Subscription',
+  Notification: 'Notification',
+  ApiKey: 'ApiKey',
+  AdminLog: 'AdminLog',
+  ProcessingJob: 'ProcessingJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -79,7 +87,14 @@ export const UserScalarFieldEnum = {
   password: 'password',
   image: 'image',
   plan: 'plan',
-  createdAt: 'createdAt'
+  role: 'role',
+  company: 'company',
+  phone: 'phone',
+  region: 'region',
+  verified: 'verified',
+  onboarded: 'onboarded',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -88,6 +103,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const TenderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  workspaceId: 'workspaceId',
   title: 'title',
   fileName: 'fileName',
   fileContent: 'fileContent',
@@ -99,6 +115,11 @@ export const TenderScalarFieldEnum = {
   analysis: 'analysis',
   eligibility: 'eligibility',
   risks: 'risks',
+  sourceType: 'sourceType',
+  aiScore: 'aiScore',
+  successProbability: 'successProbability',
+  qualityRating: 'qualityRating',
+  errorMessage: 'errorMessage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -120,6 +141,119 @@ export const ProposalScalarFieldEnum = {
 export type ProposalScalarFieldEnum = (typeof ProposalScalarFieldEnum)[keyof typeof ProposalScalarFieldEnum]
 
 
+export const WorkspaceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  industry: 'industry',
+  businessCategory: 'businessCategory',
+  teamSize: 'teamSize',
+  preferredTenderSize: 'preferredTenderSize',
+  sectorPreference: 'sectorPreference',
+  capabilities: 'capabilities',
+  services: 'services',
+  region: 'region',
+  branding: 'branding',
+  preferences: 'preferences',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WorkspaceScalarFieldEnum = (typeof WorkspaceScalarFieldEnum)[keyof typeof WorkspaceScalarFieldEnum]
+
+
+export const TenderAnalysisScalarFieldEnum = {
+  id: 'id',
+  tenderId: 'tenderId',
+  userId: 'userId',
+  status: 'status',
+  result: 'result',
+  confidence: 'confidence',
+  explanation: 'explanation',
+  createdAt: 'createdAt'
+} as const
+
+export type TenderAnalysisScalarFieldEnum = (typeof TenderAnalysisScalarFieldEnum)[keyof typeof TenderAnalysisScalarFieldEnum]
+
+
+export const ChatMessageScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tenderId: 'tenderId',
+  role: 'role',
+  content: 'content',
+  citations: 'citations',
+  createdAt: 'createdAt'
+} as const
+
+export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  plan: 'plan',
+  status: 'status',
+  usage: 'usage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  read: 'read',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const ApiKeyScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  provider: 'provider',
+  label: 'label',
+  encryptedValue: 'encryptedValue',
+  createdAt: 'createdAt'
+} as const
+
+export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
+
+
+export const AdminLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+} as const
+
+export type AdminLogScalarFieldEnum = (typeof AdminLogScalarFieldEnum)[keyof typeof AdminLogScalarFieldEnum]
+
+
+export const ProcessingJobScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tenderId: 'tenderId',
+  type: 'type',
+  status: 'status',
+  progress: 'progress',
+  error: 'error',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProcessingJobScalarFieldEnum = (typeof ProcessingJobScalarFieldEnum)[keyof typeof ProcessingJobScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -134,6 +268,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

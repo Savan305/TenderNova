@@ -76,38 +76,51 @@ app.post('/api/upload', upload.any(), async (req, res, next) => {
 
     for (const file of files) {
       try {
-        const { text } = await extractTextFromDocument(file.buffer, file.originalname, file.mimetype);
+        const { text, type } = await extractTextFromDocument(file.buffer, file.originalname, file.mimetype);
         const tender = await prisma.tender.create({
           data: {
             userId: user.id,
             title: file.originalname.replace(/\.(pdf|docx|txt)$/i, ''),
             fileName: file.originalname,
             fileContent: text,
-            status: 'analyzing'
+            sourceType: type,
+            status: 'ai_analyzing'
           }
         });
 
+        const job = await prisma.processingJob.create({
+          data: { userId: user.id, tenderId: tender.id, type: 'tender_analysis', status: 'ai_analyzing', progress: 70 }
+        });
+
         void analyzeTender(text).then(async analysis => {
+          const score = Number(analysis.eligibility?.score ?? analysis.successProbability ?? 0);
           await prisma.tender.update({
             where: { id: tender.id },
             data: {
               analysis,
-              status: 'analyzed',
+              status: 'completed',
               summary: analysis.summary,
               deadline: analysis.deadline ? new Date(analysis.deadline) : null,
               budget: analysis.budget,
               category: analysis.category,
               eligibility: analysis.eligibility,
               risks: analysis.risks,
-              title: analysis.title || tender.title
+              title: analysis.title || tender.title,
+              aiScore: score || null,
+              successProbability: score || null,
+              qualityRating: score >= 85 ? 'A' : score >= 70 ? 'B' : score >= 50 ? 'C' : 'D'
             }
           });
+          await prisma.tenderAnalysis.create({ data: { tenderId: tender.id, userId: user.id, result: analysis, confidence: score || null, explanation: analysis.summary } });
+          await prisma.processingJob.update({ where: { id: job.id }, data: { status: 'completed', progress: 100 } });
         }).catch(async error => {
           console.error(error);
-          await prisma.tender.update({ where: { id: tender.id }, data: { status: 'analysis_failed' } }).catch(console.error);
+          const message = error instanceof Error ? error.message : 'AI analysis failed';
+          await prisma.tender.update({ where: { id: tender.id }, data: { status: 'analysis_failed', errorMessage: message } }).catch(console.error);
+          await prisma.processingJob.update({ where: { id: job.id }, data: { status: 'failed', error: message, progress: 100 } }).catch(console.error);
         });
 
-        items.push({ id: tender.id, fileName: file.originalname, status: tender.status });
+        items.push({ id: tender.id, fileName: file.originalname, status: 'ai_analyzing' });
       } catch (error) {
         failures.push({ fileName: file.originalname, error: error instanceof Error ? error.message : 'Extraction failed' });
       }

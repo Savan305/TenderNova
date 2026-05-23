@@ -43,31 +43,44 @@ export async function POST(request: NextRequest) {
             title: file.name.replace(/\.(pdf|docx|txt)$/i, ''),
             fileName: file.name,
             fileContent: text,
-            status: 'analyzing'
+            sourceType: type,
+            status: 'ai_analyzing'
           }
         });
 
+        const job = await prisma.processingJob.create({
+          data: { userId: user.id, tenderId: tender.id, type: 'tender_analysis', status: 'ai_analyzing', progress: 70 }
+        });
+
         analyzeTender(text).then(async analysis => {
+          const score = Number(analysis.eligibility?.score ?? analysis.successProbability ?? 0);
           await prisma.tender.update({
             where: { id: tender.id },
             data: {
               analysis,
-              status: 'analyzed',
+              status: 'completed',
               summary: analysis.summary,
               deadline: analysis.deadline ? new Date(analysis.deadline) : null,
               budget: analysis.budget,
               category: analysis.category,
               eligibility: analysis.eligibility,
               risks: analysis.risks,
-              title: analysis.title || tender.title
+              title: analysis.title || tender.title,
+              aiScore: score || null,
+              successProbability: score || null,
+              qualityRating: score >= 85 ? 'A' : score >= 70 ? 'B' : score >= 50 ? 'C' : 'D'
             }
           });
+          await prisma.tenderAnalysis.create({ data: { tenderId: tender.id, userId: user.id, result: analysis, confidence: score || null, explanation: analysis.summary } });
+          await prisma.processingJob.update({ where: { id: job.id }, data: { status: 'completed', progress: 100 } });
         }).catch(async error => {
           console.error(error);
-          await prisma.tender.update({ where: { id: tender.id }, data: { status: 'analysis_failed' } }).catch(console.error);
+          const message = error instanceof Error ? error.message : 'AI analysis failed';
+          await prisma.tender.update({ where: { id: tender.id }, data: { status: 'analysis_failed', errorMessage: message } }).catch(console.error);
+          await prisma.processingJob.update({ where: { id: job.id }, data: { status: 'failed', error: message, progress: 100 } }).catch(console.error);
         });
 
-        items.push({ id: tender.id, fileName: file.name, status: tender.status });
+        items.push({ id: tender.id, fileName: file.name, status: 'ai_analyzing' });
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Could not extract document text';
         failures.push({ fileName: file.name, error: message });

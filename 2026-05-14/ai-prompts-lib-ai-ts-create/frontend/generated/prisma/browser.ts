@@ -32,3 +32,43 @@ export type Tender = Prisma.TenderModel
  * 
  */
 export type Proposal = Prisma.ProposalModel
+/**
+ * Model Workspace
+ * 
+ */
+export type Workspace = Prisma.WorkspaceModel
+/**
+ * Model TenderAnalysis
+ * 
+ */
+export type TenderAnalysis = Prisma.TenderAnalysisModel
+/**
+ * Model ChatMessage
+ * 
+ */
+export type ChatMessage = Prisma.ChatMessageModel
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model ApiKey
+ * 
+ */
+export type ApiKey = Prisma.ApiKeyModel
+/**
+ * Model AdminLog
+ * 
+ */
+export type AdminLog = Prisma.AdminLogModel
+/**
+ * Model ProcessingJob
+ * 
+ */
+export type ProcessingJob = Prisma.ProcessingJobModel

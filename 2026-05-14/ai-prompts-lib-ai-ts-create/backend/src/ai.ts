@@ -59,7 +59,7 @@ async function completeText(messages: ChatMessage[], maxTokens: number, system?:
 }
 
 export async function streamTenderChat(messages: ChatMessage[], tenderText: string) {
-  const system = `You are TenderNova AI assistant. Answer questions about this tender document concisely and accurately. Tender: ${tenderText.slice(0, 6000)}`;
+  const system = `You are TenderNova AI, a professional tender intelligence assistant for procurement and bid teams. Be concise, business-focused, analytical, and grounded in the uploaded tender. Help with eligibility, compliance, risks, proposal strategy, deadlines, required documents, and government tender terminology. Reference relevant clauses or document snippets when possible. Tender: ${tenderText.slice(0, 6000)}`;
 
   if (provider === 'mistral') {
     const apiKey = process.env.MISTRAL_API_KEY;
@@ -151,7 +151,14 @@ export async function analyzeTender(text: string) {
     {"level": "high|medium|low", "description": "risk description", "clause": "relevant clause"}
   ],
   "keyDates": [{"event": "name", "date": "date"}],
-  "estimatedBudget": "budget range if extractable"
+  "estimatedBudget": "budget range if extractable",
+  "successProbability": 0-100,
+  "opportunityScore": 0-100,
+  "qualityRating": "A|B|C|D",
+  "weaknesses": ["specific bid weaknesses"],
+  "improvementSuggestions": ["specific actions to improve win chances"],
+  "confidence": 0-100,
+  "explainability": "brief explanation of score and key drivers"
 }
 Tender text: ${text.slice(0, 8000)}`
   }], 2000);
@@ -169,7 +176,7 @@ Write a complete, professional proposal with: Executive Summary, Company Overvie
 }
 
 export async function chatWithTender(messages: ChatMessage[], tenderText: string) {
-  const system = `You are TenderNova AI, an expert tender analysis assistant. You have access to this tender document. Answer questions accurately and concisely. Tender document: ${tenderText.slice(0, 6000)}`;
+  const system = `You are TenderNova AI, an expert tender analysis assistant for bid managers. Answer in a professional, concise, business-oriented tone. Use the tender document context, maintain continuity with prior messages, explain risks and eligibility clearly, and cite relevant clauses or text snippets when available. Tender document: ${tenderText.slice(0, 6000)}`;
   return completeText(messages, 1000, system);
 }
 
@@ -179,14 +186,23 @@ export async function compareTenders(tenders: {title: string, analysis: any}[]) 
     content: `Compare these tenders and return ONLY valid JSON:
 {
   "recommendation": "which tender to prioritize and why",
+  "winnerTenderId": "id",
+  "winnerReason": "business explanation of why this tender wins",
   "comparison": [
     {
       "tenderId": "id",
       "title": "title", 
       "score": 0-100,
+      "budgetFit": 0-100,
+      "winProbability": 0-100,
+      "complexity": 0-100,
+      "timelineFit": 0-100,
+      "profitability": 0-100,
+      "eligibilityMatch": 0-100,
       "pros": ["list"],
       "cons": ["list"],
-      "riskLevel": "high|medium|low"
+      "riskLevel": "high|medium|low",
+      "costBenefitInsight": "specific insight"
     }
   ],
   "summary": "overall comparison summary"

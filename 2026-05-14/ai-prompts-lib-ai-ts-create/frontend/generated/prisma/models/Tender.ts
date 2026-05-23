@@ -20,13 +20,26 @@ export type TenderModel = runtime.Types.Result.DefaultSelection<Prisma.$TenderPa
 
 export type AggregateTender = {
   _count: TenderCountAggregateOutputType | null
+  _avg: TenderAvgAggregateOutputType | null
+  _sum: TenderSumAggregateOutputType | null
   _min: TenderMinAggregateOutputType | null
   _max: TenderMaxAggregateOutputType | null
+}
+
+export type TenderAvgAggregateOutputType = {
+  aiScore: number | null
+  successProbability: number | null
+}
+
+export type TenderSumAggregateOutputType = {
+  aiScore: number | null
+  successProbability: number | null
 }
 
 export type TenderMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  workspaceId: string | null
   title: string | null
   fileName: string | null
   fileContent: string | null
@@ -35,6 +48,11 @@ export type TenderMinAggregateOutputType = {
   deadline: Date | null
   budget: string | null
   category: string | null
+  sourceType: string | null
+  aiScore: number | null
+  successProbability: number | null
+  qualityRating: string | null
+  errorMessage: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +60,7 @@ export type TenderMinAggregateOutputType = {
 export type TenderMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  workspaceId: string | null
   title: string | null
   fileName: string | null
   fileContent: string | null
@@ -50,6 +69,11 @@ export type TenderMaxAggregateOutputType = {
   deadline: Date | null
   budget: string | null
   category: string | null
+  sourceType: string | null
+  aiScore: number | null
+  successProbability: number | null
+  qualityRating: string | null
+  errorMessage: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -57,6 +81,7 @@ export type TenderMaxAggregateOutputType = {
 export type TenderCountAggregateOutputType = {
   id: number
   userId: number
+  workspaceId: number
   title: number
   fileName: number
   fileContent: number
@@ -68,15 +93,31 @@ export type TenderCountAggregateOutputType = {
   analysis: number
   eligibility: number
   risks: number
+  sourceType: number
+  aiScore: number
+  successProbability: number
+  qualityRating: number
+  errorMessage: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
 
+export type TenderAvgAggregateInputType = {
+  aiScore?: true
+  successProbability?: true
+}
+
+export type TenderSumAggregateInputType = {
+  aiScore?: true
+  successProbability?: true
+}
+
 export type TenderMinAggregateInputType = {
   id?: true
   userId?: true
+  workspaceId?: true
   title?: true
   fileName?: true
   fileContent?: true
@@ -85,6 +126,11 @@ export type TenderMinAggregateInputType = {
   deadline?: true
   budget?: true
   category?: true
+  sourceType?: true
+  aiScore?: true
+  successProbability?: true
+  qualityRating?: true
+  errorMessage?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,6 +138,7 @@ export type TenderMinAggregateInputType = {
 export type TenderMaxAggregateInputType = {
   id?: true
   userId?: true
+  workspaceId?: true
   title?: true
   fileName?: true
   fileContent?: true
@@ -100,6 +147,11 @@ export type TenderMaxAggregateInputType = {
   deadline?: true
   budget?: true
   category?: true
+  sourceType?: true
+  aiScore?: true
+  successProbability?: true
+  qualityRating?: true
+  errorMessage?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -107,6 +159,7 @@ export type TenderMaxAggregateInputType = {
 export type TenderCountAggregateInputType = {
   id?: true
   userId?: true
+  workspaceId?: true
   title?: true
   fileName?: true
   fileContent?: true
@@ -118,6 +171,11 @@ export type TenderCountAggregateInputType = {
   analysis?: true
   eligibility?: true
   risks?: true
+  sourceType?: true
+  aiScore?: true
+  successProbability?: true
+  qualityRating?: true
+  errorMessage?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -161,6 +219,18 @@ export type TenderAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: TenderAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: TenderSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: TenderMinAggregateInputType
@@ -191,6 +261,8 @@ export type TenderGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: TenderCountAggregateInputType | true
+  _avg?: TenderAvgAggregateInputType
+  _sum?: TenderSumAggregateInputType
   _min?: TenderMinAggregateInputType
   _max?: TenderMaxAggregateInputType
 }
@@ -198,6 +270,7 @@ export type TenderGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type TenderGroupByOutputType = {
   id: string
   userId: string
+  workspaceId: string | null
   title: string
   fileName: string
   fileContent: string
@@ -209,9 +282,16 @@ export type TenderGroupByOutputType = {
   analysis: runtime.JsonValue | null
   eligibility: runtime.JsonValue | null
   risks: runtime.JsonValue | null
+  sourceType: string
+  aiScore: number | null
+  successProbability: number | null
+  qualityRating: string | null
+  errorMessage: string | null
   createdAt: Date
   updatedAt: Date
   _count: TenderCountAggregateOutputType | null
+  _avg: TenderAvgAggregateOutputType | null
+  _sum: TenderSumAggregateOutputType | null
   _min: TenderMinAggregateOutputType | null
   _max: TenderMaxAggregateOutputType | null
 }
@@ -237,6 +317,7 @@ export type TenderWhereInput = {
   NOT?: Prisma.TenderWhereInput | Prisma.TenderWhereInput[]
   id?: Prisma.StringFilter<"Tender"> | string
   userId?: Prisma.StringFilter<"Tender"> | string
+  workspaceId?: Prisma.StringNullableFilter<"Tender"> | string | null
   title?: Prisma.StringFilter<"Tender"> | string
   fileName?: Prisma.StringFilter<"Tender"> | string
   fileContent?: Prisma.StringFilter<"Tender"> | string
@@ -248,15 +329,25 @@ export type TenderWhereInput = {
   analysis?: Prisma.JsonNullableFilter<"Tender">
   eligibility?: Prisma.JsonNullableFilter<"Tender">
   risks?: Prisma.JsonNullableFilter<"Tender">
+  sourceType?: Prisma.StringFilter<"Tender"> | string
+  aiScore?: Prisma.IntNullableFilter<"Tender"> | number | null
+  successProbability?: Prisma.IntNullableFilter<"Tender"> | number | null
+  qualityRating?: Prisma.StringNullableFilter<"Tender"> | string | null
+  errorMessage?: Prisma.StringNullableFilter<"Tender"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tender"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tender"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  workspace?: Prisma.XOR<Prisma.WorkspaceNullableScalarRelationFilter, Prisma.WorkspaceWhereInput> | null
   proposals?: Prisma.ProposalListRelationFilter
+  analyses?: Prisma.TenderAnalysisListRelationFilter
+  messages?: Prisma.ChatMessageListRelationFilter
+  jobs?: Prisma.ProcessingJobListRelationFilter
 }
 
 export type TenderOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  workspaceId?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileContent?: Prisma.SortOrder
@@ -268,10 +359,19 @@ export type TenderOrderByWithRelationInput = {
   analysis?: Prisma.SortOrderInput | Prisma.SortOrder
   eligibility?: Prisma.SortOrderInput | Prisma.SortOrder
   risks?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  successProbability?: Prisma.SortOrderInput | Prisma.SortOrder
+  qualityRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  workspace?: Prisma.WorkspaceOrderByWithRelationInput
   proposals?: Prisma.ProposalOrderByRelationAggregateInput
+  analyses?: Prisma.TenderAnalysisOrderByRelationAggregateInput
+  messages?: Prisma.ChatMessageOrderByRelationAggregateInput
+  jobs?: Prisma.ProcessingJobOrderByRelationAggregateInput
 }
 
 export type TenderWhereUniqueInput = Prisma.AtLeast<{
@@ -280,6 +380,7 @@ export type TenderWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.TenderWhereInput[]
   NOT?: Prisma.TenderWhereInput | Prisma.TenderWhereInput[]
   userId?: Prisma.StringFilter<"Tender"> | string
+  workspaceId?: Prisma.StringNullableFilter<"Tender"> | string | null
   title?: Prisma.StringFilter<"Tender"> | string
   fileName?: Prisma.StringFilter<"Tender"> | string
   fileContent?: Prisma.StringFilter<"Tender"> | string
@@ -291,15 +392,25 @@ export type TenderWhereUniqueInput = Prisma.AtLeast<{
   analysis?: Prisma.JsonNullableFilter<"Tender">
   eligibility?: Prisma.JsonNullableFilter<"Tender">
   risks?: Prisma.JsonNullableFilter<"Tender">
+  sourceType?: Prisma.StringFilter<"Tender"> | string
+  aiScore?: Prisma.IntNullableFilter<"Tender"> | number | null
+  successProbability?: Prisma.IntNullableFilter<"Tender"> | number | null
+  qualityRating?: Prisma.StringNullableFilter<"Tender"> | string | null
+  errorMessage?: Prisma.StringNullableFilter<"Tender"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tender"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tender"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  workspace?: Prisma.XOR<Prisma.WorkspaceNullableScalarRelationFilter, Prisma.WorkspaceWhereInput> | null
   proposals?: Prisma.ProposalListRelationFilter
+  analyses?: Prisma.TenderAnalysisListRelationFilter
+  messages?: Prisma.ChatMessageListRelationFilter
+  jobs?: Prisma.ProcessingJobListRelationFilter
 }, "id">
 
 export type TenderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  workspaceId?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileContent?: Prisma.SortOrder
@@ -311,11 +422,18 @@ export type TenderOrderByWithAggregationInput = {
   analysis?: Prisma.SortOrderInput | Prisma.SortOrder
   eligibility?: Prisma.SortOrderInput | Prisma.SortOrder
   risks?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  successProbability?: Prisma.SortOrderInput | Prisma.SortOrder
+  qualityRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TenderCountOrderByAggregateInput
+  _avg?: Prisma.TenderAvgOrderByAggregateInput
   _max?: Prisma.TenderMaxOrderByAggregateInput
   _min?: Prisma.TenderMinOrderByAggregateInput
+  _sum?: Prisma.TenderSumOrderByAggregateInput
 }
 
 export type TenderScalarWhereWithAggregatesInput = {
@@ -324,6 +442,7 @@ export type TenderScalarWhereWithAggregatesInput = {
   NOT?: Prisma.TenderScalarWhereWithAggregatesInput | Prisma.TenderScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Tender"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Tender"> | string
+  workspaceId?: Prisma.StringNullableWithAggregatesFilter<"Tender"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"Tender"> | string
   fileName?: Prisma.StringWithAggregatesFilter<"Tender"> | string
   fileContent?: Prisma.StringWithAggregatesFilter<"Tender"> | string
@@ -335,6 +454,11 @@ export type TenderScalarWhereWithAggregatesInput = {
   analysis?: Prisma.JsonNullableWithAggregatesFilter<"Tender">
   eligibility?: Prisma.JsonNullableWithAggregatesFilter<"Tender">
   risks?: Prisma.JsonNullableWithAggregatesFilter<"Tender">
+  sourceType?: Prisma.StringWithAggregatesFilter<"Tender"> | string
+  aiScore?: Prisma.IntNullableWithAggregatesFilter<"Tender"> | number | null
+  successProbability?: Prisma.IntNullableWithAggregatesFilter<"Tender"> | number | null
+  qualityRating?: Prisma.StringNullableWithAggregatesFilter<"Tender"> | string | null
+  errorMessage?: Prisma.StringNullableWithAggregatesFilter<"Tender"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tender"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tender"> | Date | string
 }
@@ -352,15 +476,25 @@ export type TenderCreateInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTendersInput
+  workspace?: Prisma.WorkspaceCreateNestedOneWithoutTendersInput
   proposals?: Prisma.ProposalCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutTenderInput
 }
 
 export type TenderUncheckedCreateInput = {
   id?: string
   userId: string
+  workspaceId?: string | null
   title: string
   fileName: string
   fileContent: string
@@ -372,9 +506,17 @@ export type TenderUncheckedCreateInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisUncheckedCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutTenderInput
 }
 
 export type TenderUpdateInput = {
@@ -390,15 +532,25 @@ export type TenderUpdateInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTendersNestedInput
+  workspace?: Prisma.WorkspaceUpdateOneWithoutTendersNestedInput
   proposals?: Prisma.ProposalUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutTenderNestedInput
 }
 
 export type TenderUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileContent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -410,14 +562,23 @@ export type TenderUncheckedUpdateInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUncheckedUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutTenderNestedInput
 }
 
 export type TenderCreateManyInput = {
   id?: string
   userId: string
+  workspaceId?: string | null
   title: string
   fileName: string
   fileContent: string
@@ -429,6 +590,11 @@ export type TenderCreateManyInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -446,6 +612,11 @@ export type TenderUpdateManyMutationInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -453,6 +624,7 @@ export type TenderUpdateManyMutationInput = {
 export type TenderUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileContent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -464,6 +636,11 @@ export type TenderUncheckedUpdateManyInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -481,6 +658,7 @@ export type TenderOrderByRelationAggregateInput = {
 export type TenderCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  workspaceId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileContent?: Prisma.SortOrder
@@ -492,13 +670,24 @@ export type TenderCountOrderByAggregateInput = {
   analysis?: Prisma.SortOrder
   eligibility?: Prisma.SortOrder
   risks?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  successProbability?: Prisma.SortOrder
+  qualityRating?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type TenderAvgOrderByAggregateInput = {
+  aiScore?: Prisma.SortOrder
+  successProbability?: Prisma.SortOrder
 }
 
 export type TenderMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  workspaceId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileContent?: Prisma.SortOrder
@@ -507,6 +696,11 @@ export type TenderMaxOrderByAggregateInput = {
   deadline?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  successProbability?: Prisma.SortOrder
+  qualityRating?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -514,6 +708,7 @@ export type TenderMaxOrderByAggregateInput = {
 export type TenderMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  workspaceId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   fileContent?: Prisma.SortOrder
@@ -522,13 +717,28 @@ export type TenderMinOrderByAggregateInput = {
   deadline?: Prisma.SortOrder
   budget?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  sourceType?: Prisma.SortOrder
+  aiScore?: Prisma.SortOrder
+  successProbability?: Prisma.SortOrder
+  qualityRating?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type TenderSumOrderByAggregateInput = {
+  aiScore?: Prisma.SortOrder
+  successProbability?: Prisma.SortOrder
 }
 
 export type TenderScalarRelationFilter = {
   is?: Prisma.TenderWhereInput
   isNot?: Prisma.TenderWhereInput
+}
+
+export type TenderNullableScalarRelationFilter = {
+  is?: Prisma.TenderWhereInput | null
+  isNot?: Prisma.TenderWhereInput | null
 }
 
 export type TenderCreateNestedManyWithoutUserInput = {
@@ -577,6 +787,14 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type TenderCreateNestedOneWithoutProposalsInput = {
   create?: Prisma.XOR<Prisma.TenderCreateWithoutProposalsInput, Prisma.TenderUncheckedCreateWithoutProposalsInput>
   connectOrCreate?: Prisma.TenderCreateOrConnectWithoutProposalsInput
@@ -589,6 +807,94 @@ export type TenderUpdateOneRequiredWithoutProposalsNestedInput = {
   upsert?: Prisma.TenderUpsertWithoutProposalsInput
   connect?: Prisma.TenderWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenderUpdateToOneWithWhereWithoutProposalsInput, Prisma.TenderUpdateWithoutProposalsInput>, Prisma.TenderUncheckedUpdateWithoutProposalsInput>
+}
+
+export type TenderCreateNestedManyWithoutWorkspaceInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutWorkspaceInput, Prisma.TenderUncheckedCreateWithoutWorkspaceInput> | Prisma.TenderCreateWithoutWorkspaceInput[] | Prisma.TenderUncheckedCreateWithoutWorkspaceInput[]
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutWorkspaceInput | Prisma.TenderCreateOrConnectWithoutWorkspaceInput[]
+  createMany?: Prisma.TenderCreateManyWorkspaceInputEnvelope
+  connect?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+}
+
+export type TenderUncheckedCreateNestedManyWithoutWorkspaceInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutWorkspaceInput, Prisma.TenderUncheckedCreateWithoutWorkspaceInput> | Prisma.TenderCreateWithoutWorkspaceInput[] | Prisma.TenderUncheckedCreateWithoutWorkspaceInput[]
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutWorkspaceInput | Prisma.TenderCreateOrConnectWithoutWorkspaceInput[]
+  createMany?: Prisma.TenderCreateManyWorkspaceInputEnvelope
+  connect?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+}
+
+export type TenderUpdateManyWithoutWorkspaceNestedInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutWorkspaceInput, Prisma.TenderUncheckedCreateWithoutWorkspaceInput> | Prisma.TenderCreateWithoutWorkspaceInput[] | Prisma.TenderUncheckedCreateWithoutWorkspaceInput[]
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutWorkspaceInput | Prisma.TenderCreateOrConnectWithoutWorkspaceInput[]
+  upsert?: Prisma.TenderUpsertWithWhereUniqueWithoutWorkspaceInput | Prisma.TenderUpsertWithWhereUniqueWithoutWorkspaceInput[]
+  createMany?: Prisma.TenderCreateManyWorkspaceInputEnvelope
+  set?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  disconnect?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  delete?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  connect?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  update?: Prisma.TenderUpdateWithWhereUniqueWithoutWorkspaceInput | Prisma.TenderUpdateWithWhereUniqueWithoutWorkspaceInput[]
+  updateMany?: Prisma.TenderUpdateManyWithWhereWithoutWorkspaceInput | Prisma.TenderUpdateManyWithWhereWithoutWorkspaceInput[]
+  deleteMany?: Prisma.TenderScalarWhereInput | Prisma.TenderScalarWhereInput[]
+}
+
+export type TenderUncheckedUpdateManyWithoutWorkspaceNestedInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutWorkspaceInput, Prisma.TenderUncheckedCreateWithoutWorkspaceInput> | Prisma.TenderCreateWithoutWorkspaceInput[] | Prisma.TenderUncheckedCreateWithoutWorkspaceInput[]
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutWorkspaceInput | Prisma.TenderCreateOrConnectWithoutWorkspaceInput[]
+  upsert?: Prisma.TenderUpsertWithWhereUniqueWithoutWorkspaceInput | Prisma.TenderUpsertWithWhereUniqueWithoutWorkspaceInput[]
+  createMany?: Prisma.TenderCreateManyWorkspaceInputEnvelope
+  set?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  disconnect?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  delete?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  connect?: Prisma.TenderWhereUniqueInput | Prisma.TenderWhereUniqueInput[]
+  update?: Prisma.TenderUpdateWithWhereUniqueWithoutWorkspaceInput | Prisma.TenderUpdateWithWhereUniqueWithoutWorkspaceInput[]
+  updateMany?: Prisma.TenderUpdateManyWithWhereWithoutWorkspaceInput | Prisma.TenderUpdateManyWithWhereWithoutWorkspaceInput[]
+  deleteMany?: Prisma.TenderScalarWhereInput | Prisma.TenderScalarWhereInput[]
+}
+
+export type TenderCreateNestedOneWithoutAnalysesInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutAnalysesInput, Prisma.TenderUncheckedCreateWithoutAnalysesInput>
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutAnalysesInput
+  connect?: Prisma.TenderWhereUniqueInput
+}
+
+export type TenderUpdateOneRequiredWithoutAnalysesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutAnalysesInput, Prisma.TenderUncheckedCreateWithoutAnalysesInput>
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutAnalysesInput
+  upsert?: Prisma.TenderUpsertWithoutAnalysesInput
+  connect?: Prisma.TenderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenderUpdateToOneWithWhereWithoutAnalysesInput, Prisma.TenderUpdateWithoutAnalysesInput>, Prisma.TenderUncheckedUpdateWithoutAnalysesInput>
+}
+
+export type TenderCreateNestedOneWithoutMessagesInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutMessagesInput, Prisma.TenderUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutMessagesInput
+  connect?: Prisma.TenderWhereUniqueInput
+}
+
+export type TenderUpdateOneWithoutMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutMessagesInput, Prisma.TenderUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutMessagesInput
+  upsert?: Prisma.TenderUpsertWithoutMessagesInput
+  disconnect?: Prisma.TenderWhereInput | boolean
+  delete?: Prisma.TenderWhereInput | boolean
+  connect?: Prisma.TenderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenderUpdateToOneWithWhereWithoutMessagesInput, Prisma.TenderUpdateWithoutMessagesInput>, Prisma.TenderUncheckedUpdateWithoutMessagesInput>
+}
+
+export type TenderCreateNestedOneWithoutJobsInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutJobsInput, Prisma.TenderUncheckedCreateWithoutJobsInput>
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutJobsInput
+  connect?: Prisma.TenderWhereUniqueInput
+}
+
+export type TenderUpdateOneWithoutJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenderCreateWithoutJobsInput, Prisma.TenderUncheckedCreateWithoutJobsInput>
+  connectOrCreate?: Prisma.TenderCreateOrConnectWithoutJobsInput
+  upsert?: Prisma.TenderUpsertWithoutJobsInput
+  disconnect?: Prisma.TenderWhereInput | boolean
+  delete?: Prisma.TenderWhereInput | boolean
+  connect?: Prisma.TenderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenderUpdateToOneWithWhereWithoutJobsInput, Prisma.TenderUpdateWithoutJobsInput>, Prisma.TenderUncheckedUpdateWithoutJobsInput>
 }
 
 export type TenderCreateWithoutUserInput = {
@@ -604,13 +910,23 @@ export type TenderCreateWithoutUserInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  workspace?: Prisma.WorkspaceCreateNestedOneWithoutTendersInput
   proposals?: Prisma.ProposalCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutTenderInput
 }
 
 export type TenderUncheckedCreateWithoutUserInput = {
   id?: string
+  workspaceId?: string | null
   title: string
   fileName: string
   fileContent: string
@@ -622,9 +938,17 @@ export type TenderUncheckedCreateWithoutUserInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisUncheckedCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutTenderInput
 }
 
 export type TenderCreateOrConnectWithoutUserInput = {
@@ -659,6 +983,7 @@ export type TenderScalarWhereInput = {
   NOT?: Prisma.TenderScalarWhereInput | Prisma.TenderScalarWhereInput[]
   id?: Prisma.StringFilter<"Tender"> | string
   userId?: Prisma.StringFilter<"Tender"> | string
+  workspaceId?: Prisma.StringNullableFilter<"Tender"> | string | null
   title?: Prisma.StringFilter<"Tender"> | string
   fileName?: Prisma.StringFilter<"Tender"> | string
   fileContent?: Prisma.StringFilter<"Tender"> | string
@@ -670,6 +995,11 @@ export type TenderScalarWhereInput = {
   analysis?: Prisma.JsonNullableFilter<"Tender">
   eligibility?: Prisma.JsonNullableFilter<"Tender">
   risks?: Prisma.JsonNullableFilter<"Tender">
+  sourceType?: Prisma.StringFilter<"Tender"> | string
+  aiScore?: Prisma.IntNullableFilter<"Tender"> | number | null
+  successProbability?: Prisma.IntNullableFilter<"Tender"> | number | null
+  qualityRating?: Prisma.StringNullableFilter<"Tender"> | string | null
+  errorMessage?: Prisma.StringNullableFilter<"Tender"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tender"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tender"> | Date | string
 }
@@ -687,14 +1017,24 @@ export type TenderCreateWithoutProposalsInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTendersInput
+  workspace?: Prisma.WorkspaceCreateNestedOneWithoutTendersInput
+  analyses?: Prisma.TenderAnalysisCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutTenderInput
 }
 
 export type TenderUncheckedCreateWithoutProposalsInput = {
   id?: string
   userId: string
+  workspaceId?: string | null
   title: string
   fileName: string
   fileContent: string
@@ -706,8 +1046,16 @@ export type TenderUncheckedCreateWithoutProposalsInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  analyses?: Prisma.TenderAnalysisUncheckedCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutTenderInput
 }
 
 export type TenderCreateOrConnectWithoutProposalsInput = {
@@ -739,14 +1087,24 @@ export type TenderUpdateWithoutProposalsInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTendersNestedInput
+  workspace?: Prisma.WorkspaceUpdateOneWithoutTendersNestedInput
+  analyses?: Prisma.TenderAnalysisUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutTenderNestedInput
 }
 
 export type TenderUncheckedUpdateWithoutProposalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileContent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -758,11 +1116,19 @@ export type TenderUncheckedUpdateWithoutProposalsInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analyses?: Prisma.TenderAnalysisUncheckedUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutTenderNestedInput
 }
 
-export type TenderCreateManyUserInput = {
+export type TenderCreateWithoutWorkspaceInput = {
   id?: string
   title: string
   fileName: string
@@ -775,6 +1141,464 @@ export type TenderCreateManyUserInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTendersInput
+  proposals?: Prisma.ProposalCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutTenderInput
+}
+
+export type TenderUncheckedCreateWithoutWorkspaceInput = {
+  id?: string
+  userId: string
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisUncheckedCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutTenderInput
+}
+
+export type TenderCreateOrConnectWithoutWorkspaceInput = {
+  where: Prisma.TenderWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenderCreateWithoutWorkspaceInput, Prisma.TenderUncheckedCreateWithoutWorkspaceInput>
+}
+
+export type TenderCreateManyWorkspaceInputEnvelope = {
+  data: Prisma.TenderCreateManyWorkspaceInput | Prisma.TenderCreateManyWorkspaceInput[]
+  skipDuplicates?: boolean
+}
+
+export type TenderUpsertWithWhereUniqueWithoutWorkspaceInput = {
+  where: Prisma.TenderWhereUniqueInput
+  update: Prisma.XOR<Prisma.TenderUpdateWithoutWorkspaceInput, Prisma.TenderUncheckedUpdateWithoutWorkspaceInput>
+  create: Prisma.XOR<Prisma.TenderCreateWithoutWorkspaceInput, Prisma.TenderUncheckedCreateWithoutWorkspaceInput>
+}
+
+export type TenderUpdateWithWhereUniqueWithoutWorkspaceInput = {
+  where: Prisma.TenderWhereUniqueInput
+  data: Prisma.XOR<Prisma.TenderUpdateWithoutWorkspaceInput, Prisma.TenderUncheckedUpdateWithoutWorkspaceInput>
+}
+
+export type TenderUpdateManyWithWhereWithoutWorkspaceInput = {
+  where: Prisma.TenderScalarWhereInput
+  data: Prisma.XOR<Prisma.TenderUpdateManyMutationInput, Prisma.TenderUncheckedUpdateManyWithoutWorkspaceInput>
+}
+
+export type TenderCreateWithoutAnalysesInput = {
+  id?: string
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTendersInput
+  workspace?: Prisma.WorkspaceCreateNestedOneWithoutTendersInput
+  proposals?: Prisma.ProposalCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutTenderInput
+}
+
+export type TenderUncheckedCreateWithoutAnalysesInput = {
+  id?: string
+  userId: string
+  workspaceId?: string | null
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutTenderInput
+}
+
+export type TenderCreateOrConnectWithoutAnalysesInput = {
+  where: Prisma.TenderWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenderCreateWithoutAnalysesInput, Prisma.TenderUncheckedCreateWithoutAnalysesInput>
+}
+
+export type TenderUpsertWithoutAnalysesInput = {
+  update: Prisma.XOR<Prisma.TenderUpdateWithoutAnalysesInput, Prisma.TenderUncheckedUpdateWithoutAnalysesInput>
+  create: Prisma.XOR<Prisma.TenderCreateWithoutAnalysesInput, Prisma.TenderUncheckedCreateWithoutAnalysesInput>
+  where?: Prisma.TenderWhereInput
+}
+
+export type TenderUpdateToOneWithWhereWithoutAnalysesInput = {
+  where?: Prisma.TenderWhereInput
+  data: Prisma.XOR<Prisma.TenderUpdateWithoutAnalysesInput, Prisma.TenderUncheckedUpdateWithoutAnalysesInput>
+}
+
+export type TenderUpdateWithoutAnalysesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTendersNestedInput
+  workspace?: Prisma.WorkspaceUpdateOneWithoutTendersNestedInput
+  proposals?: Prisma.ProposalUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderUncheckedUpdateWithoutAnalysesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderCreateWithoutMessagesInput = {
+  id?: string
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTendersInput
+  workspace?: Prisma.WorkspaceCreateNestedOneWithoutTendersInput
+  proposals?: Prisma.ProposalCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutTenderInput
+}
+
+export type TenderUncheckedCreateWithoutMessagesInput = {
+  id?: string
+  userId: string
+  workspaceId?: string | null
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisUncheckedCreateNestedManyWithoutTenderInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutTenderInput
+}
+
+export type TenderCreateOrConnectWithoutMessagesInput = {
+  where: Prisma.TenderWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenderCreateWithoutMessagesInput, Prisma.TenderUncheckedCreateWithoutMessagesInput>
+}
+
+export type TenderUpsertWithoutMessagesInput = {
+  update: Prisma.XOR<Prisma.TenderUpdateWithoutMessagesInput, Prisma.TenderUncheckedUpdateWithoutMessagesInput>
+  create: Prisma.XOR<Prisma.TenderCreateWithoutMessagesInput, Prisma.TenderUncheckedCreateWithoutMessagesInput>
+  where?: Prisma.TenderWhereInput
+}
+
+export type TenderUpdateToOneWithWhereWithoutMessagesInput = {
+  where?: Prisma.TenderWhereInput
+  data: Prisma.XOR<Prisma.TenderUpdateWithoutMessagesInput, Prisma.TenderUncheckedUpdateWithoutMessagesInput>
+}
+
+export type TenderUpdateWithoutMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTendersNestedInput
+  workspace?: Prisma.WorkspaceUpdateOneWithoutTendersNestedInput
+  proposals?: Prisma.ProposalUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderUncheckedUpdateWithoutMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUncheckedUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderCreateWithoutJobsInput = {
+  id?: string
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTendersInput
+  workspace?: Prisma.WorkspaceCreateNestedOneWithoutTendersInput
+  proposals?: Prisma.ProposalCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutTenderInput
+}
+
+export type TenderUncheckedCreateWithoutJobsInput = {
+  id?: string
+  userId: string
+  workspaceId?: string | null
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutTenderInput
+  analyses?: Prisma.TenderAnalysisUncheckedCreateNestedManyWithoutTenderInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutTenderInput
+}
+
+export type TenderCreateOrConnectWithoutJobsInput = {
+  where: Prisma.TenderWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenderCreateWithoutJobsInput, Prisma.TenderUncheckedCreateWithoutJobsInput>
+}
+
+export type TenderUpsertWithoutJobsInput = {
+  update: Prisma.XOR<Prisma.TenderUpdateWithoutJobsInput, Prisma.TenderUncheckedUpdateWithoutJobsInput>
+  create: Prisma.XOR<Prisma.TenderCreateWithoutJobsInput, Prisma.TenderUncheckedCreateWithoutJobsInput>
+  where?: Prisma.TenderWhereInput
+}
+
+export type TenderUpdateToOneWithWhereWithoutJobsInput = {
+  where?: Prisma.TenderWhereInput
+  data: Prisma.XOR<Prisma.TenderUpdateWithoutJobsInput, Prisma.TenderUncheckedUpdateWithoutJobsInput>
+}
+
+export type TenderUpdateWithoutJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTendersNestedInput
+  workspace?: Prisma.WorkspaceUpdateOneWithoutTendersNestedInput
+  proposals?: Prisma.ProposalUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderUncheckedUpdateWithoutJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUncheckedUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderCreateManyUserInput = {
+  id?: string
+  workspaceId?: string | null
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -792,13 +1616,23 @@ export type TenderUpdateWithoutUserInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspace?: Prisma.WorkspaceUpdateOneWithoutTendersNestedInput
   proposals?: Prisma.ProposalUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutTenderNestedInput
 }
 
 export type TenderUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
   fileContent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -810,12 +1644,66 @@ export type TenderUncheckedUpdateWithoutUserInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUncheckedUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutTenderNestedInput
 }
 
 export type TenderUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TenderCreateManyWorkspaceInput = {
+  id?: string
+  userId: string
+  title: string
+  fileName: string
+  fileContent: string
+  status?: string
+  summary?: string | null
+  deadline?: Date | string | null
+  budget?: string | null
+  category?: string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: string
+  aiScore?: number | null
+  successProbability?: number | null
+  qualityRating?: string | null
+  errorMessage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type TenderUpdateWithoutWorkspaceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -828,6 +1716,66 @@ export type TenderUncheckedUpdateManyWithoutUserInput = {
   analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTendersNestedInput
+  proposals?: Prisma.ProposalUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderUncheckedUpdateWithoutWorkspaceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutTenderNestedInput
+  analyses?: Prisma.TenderAnalysisUncheckedUpdateManyWithoutTenderNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutTenderNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutTenderNestedInput
+}
+
+export type TenderUncheckedUpdateManyWithoutWorkspaceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileContent?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysis?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  eligibility?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  risks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sourceType?: Prisma.StringFieldUpdateOperationsInput | string
+  aiScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  successProbability?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  qualityRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -839,10 +1787,16 @@ export type TenderUncheckedUpdateManyWithoutUserInput = {
 
 export type TenderCountOutputType = {
   proposals: number
+  analyses: number
+  messages: number
+  jobs: number
 }
 
 export type TenderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   proposals?: boolean | TenderCountOutputTypeCountProposalsArgs
+  analyses?: boolean | TenderCountOutputTypeCountAnalysesArgs
+  messages?: boolean | TenderCountOutputTypeCountMessagesArgs
+  jobs?: boolean | TenderCountOutputTypeCountJobsArgs
 }
 
 /**
@@ -862,10 +1816,32 @@ export type TenderCountOutputTypeCountProposalsArgs<ExtArgs extends runtime.Type
   where?: Prisma.ProposalWhereInput
 }
 
+/**
+ * TenderCountOutputType without action
+ */
+export type TenderCountOutputTypeCountAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TenderAnalysisWhereInput
+}
+
+/**
+ * TenderCountOutputType without action
+ */
+export type TenderCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatMessageWhereInput
+}
+
+/**
+ * TenderCountOutputType without action
+ */
+export type TenderCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProcessingJobWhereInput
+}
+
 
 export type TenderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  workspaceId?: boolean
   title?: boolean
   fileName?: boolean
   fileContent?: boolean
@@ -877,16 +1853,26 @@ export type TenderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   analysis?: boolean
   eligibility?: boolean
   risks?: boolean
+  sourceType?: boolean
+  aiScore?: boolean
+  successProbability?: boolean
+  qualityRating?: boolean
+  errorMessage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  workspace?: boolean | Prisma.Tender$workspaceArgs<ExtArgs>
   proposals?: boolean | Prisma.Tender$proposalsArgs<ExtArgs>
+  analyses?: boolean | Prisma.Tender$analysesArgs<ExtArgs>
+  messages?: boolean | Prisma.Tender$messagesArgs<ExtArgs>
+  jobs?: boolean | Prisma.Tender$jobsArgs<ExtArgs>
   _count?: boolean | Prisma.TenderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tender"]>
 
 export type TenderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  workspaceId?: boolean
   title?: boolean
   fileName?: boolean
   fileContent?: boolean
@@ -898,14 +1884,21 @@ export type TenderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   analysis?: boolean
   eligibility?: boolean
   risks?: boolean
+  sourceType?: boolean
+  aiScore?: boolean
+  successProbability?: boolean
+  qualityRating?: boolean
+  errorMessage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  workspace?: boolean | Prisma.Tender$workspaceArgs<ExtArgs>
 }, ExtArgs["result"]["tender"]>
 
 export type TenderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  workspaceId?: boolean
   title?: boolean
   fileName?: boolean
   fileContent?: boolean
@@ -917,14 +1910,21 @@ export type TenderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   analysis?: boolean
   eligibility?: boolean
   risks?: boolean
+  sourceType?: boolean
+  aiScore?: boolean
+  successProbability?: boolean
+  qualityRating?: boolean
+  errorMessage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  workspace?: boolean | Prisma.Tender$workspaceArgs<ExtArgs>
 }, ExtArgs["result"]["tender"]>
 
 export type TenderSelectScalar = {
   id?: boolean
   userId?: boolean
+  workspaceId?: boolean
   title?: boolean
   fileName?: boolean
   fileContent?: boolean
@@ -936,32 +1936,48 @@ export type TenderSelectScalar = {
   analysis?: boolean
   eligibility?: boolean
   risks?: boolean
+  sourceType?: boolean
+  aiScore?: boolean
+  successProbability?: boolean
+  qualityRating?: boolean
+  errorMessage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TenderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "fileName" | "fileContent" | "status" | "summary" | "deadline" | "budget" | "category" | "analysis" | "eligibility" | "risks" | "createdAt" | "updatedAt", ExtArgs["result"]["tender"]>
+export type TenderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "workspaceId" | "title" | "fileName" | "fileContent" | "status" | "summary" | "deadline" | "budget" | "category" | "analysis" | "eligibility" | "risks" | "sourceType" | "aiScore" | "successProbability" | "qualityRating" | "errorMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["tender"]>
 export type TenderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  workspace?: boolean | Prisma.Tender$workspaceArgs<ExtArgs>
   proposals?: boolean | Prisma.Tender$proposalsArgs<ExtArgs>
+  analyses?: boolean | Prisma.Tender$analysesArgs<ExtArgs>
+  messages?: boolean | Prisma.Tender$messagesArgs<ExtArgs>
+  jobs?: boolean | Prisma.Tender$jobsArgs<ExtArgs>
   _count?: boolean | Prisma.TenderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  workspace?: boolean | Prisma.Tender$workspaceArgs<ExtArgs>
 }
 export type TenderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  workspace?: boolean | Prisma.Tender$workspaceArgs<ExtArgs>
 }
 
 export type $TenderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Tender"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    workspace: Prisma.$WorkspacePayload<ExtArgs> | null
     proposals: Prisma.$ProposalPayload<ExtArgs>[]
+    analyses: Prisma.$TenderAnalysisPayload<ExtArgs>[]
+    messages: Prisma.$ChatMessagePayload<ExtArgs>[]
+    jobs: Prisma.$ProcessingJobPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    workspaceId: string | null
     title: string
     fileName: string
     fileContent: string
@@ -973,6 +1989,11 @@ export type $TenderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     analysis: runtime.JsonValue | null
     eligibility: runtime.JsonValue | null
     risks: runtime.JsonValue | null
+    sourceType: string
+    aiScore: number | null
+    successProbability: number | null
+    qualityRating: string | null
+    errorMessage: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["tender"]>
@@ -1370,7 +2391,11 @@ readonly fields: TenderFieldRefs;
 export interface Prisma__TenderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  workspace<T extends Prisma.Tender$workspaceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tender$workspaceArgs<ExtArgs>>): Prisma.Prisma__WorkspaceClient<runtime.Types.Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   proposals<T extends Prisma.Tender$proposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tender$proposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  analyses<T extends Prisma.Tender$analysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tender$analysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenderAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  messages<T extends Prisma.Tender$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tender$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  jobs<T extends Prisma.Tender$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tender$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1402,6 +2427,7 @@ export interface Prisma__TenderClient<T, Null = never, ExtArgs extends runtime.T
 export interface TenderFieldRefs {
   readonly id: Prisma.FieldRef<"Tender", 'String'>
   readonly userId: Prisma.FieldRef<"Tender", 'String'>
+  readonly workspaceId: Prisma.FieldRef<"Tender", 'String'>
   readonly title: Prisma.FieldRef<"Tender", 'String'>
   readonly fileName: Prisma.FieldRef<"Tender", 'String'>
   readonly fileContent: Prisma.FieldRef<"Tender", 'String'>
@@ -1413,6 +2439,11 @@ export interface TenderFieldRefs {
   readonly analysis: Prisma.FieldRef<"Tender", 'Json'>
   readonly eligibility: Prisma.FieldRef<"Tender", 'Json'>
   readonly risks: Prisma.FieldRef<"Tender", 'Json'>
+  readonly sourceType: Prisma.FieldRef<"Tender", 'String'>
+  readonly aiScore: Prisma.FieldRef<"Tender", 'Int'>
+  readonly successProbability: Prisma.FieldRef<"Tender", 'Int'>
+  readonly qualityRating: Prisma.FieldRef<"Tender", 'String'>
+  readonly errorMessage: Prisma.FieldRef<"Tender", 'String'>
   readonly createdAt: Prisma.FieldRef<"Tender", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tender", 'DateTime'>
 }
@@ -1816,6 +2847,25 @@ export type TenderDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Tender.workspace
+ */
+export type Tender$workspaceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Workspace
+   */
+  select?: Prisma.WorkspaceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Workspace
+   */
+  omit?: Prisma.WorkspaceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkspaceInclude<ExtArgs> | null
+  where?: Prisma.WorkspaceWhereInput
+}
+
+/**
  * Tender.proposals
  */
 export type Tender$proposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1837,6 +2887,78 @@ export type Tender$proposalsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ProposalScalarFieldEnum | Prisma.ProposalScalarFieldEnum[]
+}
+
+/**
+ * Tender.analyses
+ */
+export type Tender$analysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TenderAnalysis
+   */
+  select?: Prisma.TenderAnalysisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TenderAnalysis
+   */
+  omit?: Prisma.TenderAnalysisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenderAnalysisInclude<ExtArgs> | null
+  where?: Prisma.TenderAnalysisWhereInput
+  orderBy?: Prisma.TenderAnalysisOrderByWithRelationInput | Prisma.TenderAnalysisOrderByWithRelationInput[]
+  cursor?: Prisma.TenderAnalysisWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenderAnalysisScalarFieldEnum | Prisma.TenderAnalysisScalarFieldEnum[]
+}
+
+/**
+ * Tender.messages
+ */
+export type Tender$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChatMessage
+   */
+  select?: Prisma.ChatMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChatMessage
+   */
+  omit?: Prisma.ChatMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatMessageInclude<ExtArgs> | null
+  where?: Prisma.ChatMessageWhereInput
+  orderBy?: Prisma.ChatMessageOrderByWithRelationInput | Prisma.ChatMessageOrderByWithRelationInput[]
+  cursor?: Prisma.ChatMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatMessageScalarFieldEnum | Prisma.ChatMessageScalarFieldEnum[]
+}
+
+/**
+ * Tender.jobs
+ */
+export type Tender$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProcessingJob
+   */
+  select?: Prisma.ProcessingJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProcessingJob
+   */
+  omit?: Prisma.ProcessingJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProcessingJobInclude<ExtArgs> | null
+  where?: Prisma.ProcessingJobWhereInput
+  orderBy?: Prisma.ProcessingJobOrderByWithRelationInput | Prisma.ProcessingJobOrderByWithRelationInput[]
+  cursor?: Prisma.ProcessingJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProcessingJobScalarFieldEnum | Prisma.ProcessingJobScalarFieldEnum[]
 }
 
 /**

@@ -50,8 +50,26 @@ async function main() {
   const email = 'demo@tendernova.ai';
   const user = await prisma.user.upsert({
     where: { email },
+    update: { role: 'admin', company: 'TenderNova Demo Co', verified: true, onboarded: true },
+    create: { email, name: 'Demo Bid Team', password: await bcrypt.hash('password123', 10), plan: 'Pro', role: 'admin', company: 'TenderNova Demo Co', verified: true, onboarded: true }
+  });
+
+  const workspace = await prisma.workspace.upsert({
+    where: { id: 'demo-workspace' },
     update: {},
-    create: { email, name: 'Demo Bid Team', password: await bcrypt.hash('password123', 10), plan: 'Pro' }
+    create: {
+      id: 'demo-workspace',
+      userId: user.id,
+      name: 'TenderNova Demo Workspace',
+      industry: 'IT Services',
+      businessCategory: 'AI procurement intelligence',
+      teamSize: '11-50',
+      preferredTenderSize: '$100K - $2M',
+      sectorPreference: 'Government and enterprise',
+      capabilities: ['AI implementation', 'Systems integration', 'Proposal delivery'],
+      services: ['Tender analysis', 'Proposal writing', 'Risk review'],
+      region: 'India'
+    }
   });
 
   for (const analysis of analyses) {
@@ -61,6 +79,7 @@ async function main() {
       create: {
         id: analysis.title.toLowerCase().replaceAll(' ', '-'),
         userId: user.id,
+        workspaceId: workspace.id,
         title: analysis.title,
         fileName: `${analysis.title}.pdf`,
         fileContent: `${analysis.title}\n${analysis.summary}\nRequirements: ${JSON.stringify(analysis.requirements)}`,
@@ -71,7 +90,11 @@ async function main() {
         category: analysis.category,
         analysis,
         eligibility: analysis.eligibility,
-        risks: analysis.risks
+        risks: analysis.risks,
+        sourceType: 'pdf',
+        aiScore: analysis.eligibility.score,
+        successProbability: analysis.eligibility.score,
+        qualityRating: analysis.eligibility.score > 85 ? 'A' : 'B'
       }
     });
 

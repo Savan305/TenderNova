@@ -14,14 +14,29 @@ model User {
   password  String?
   image     String?
   plan      String     @default("Pro")
+  role      String     @default("user")
+  company   String?
+  phone     String?
+  region    String?
+  verified  Boolean    @default(false)
+  onboarded Boolean    @default(false)
   createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
   tenders   Tender[]
   proposals Proposal[]
+  workspaces Workspace[]
+  messages  ChatMessage[]
+  notifications Notification[]
+  apiKeys   ApiKey[]
+  adminLogs AdminLog[]
+  jobs      ProcessingJob[]
+  subscriptions Subscription[]
 }
 
 model Tender {
   id          String     @id @default(cuid())
   userId      String
+  workspaceId String?
   title       String
   fileName    String
   fileContent String
@@ -33,10 +48,19 @@ model Tender {
   analysis    Json?
   eligibility Json?
   risks       Json?
+  sourceType  String     @default("pdf")
+  aiScore     Int?
+  successProbability Int?
+  qualityRating String?
+  errorMessage String?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
   proposals   Proposal[]
+  analyses    TenderAnalysis[]
+  messages    ChatMessage[]
+  jobs        ProcessingJob[]
 }
 
 model Proposal {
@@ -50,4 +74,104 @@ model Proposal {
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tender    Tender   @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+}
+
+model Workspace {
+  id              String   @id @default(cuid())
+  userId          String
+  name            String
+  industry        String?
+  businessCategory String?
+  teamSize        String?
+  preferredTenderSize String?
+  sectorPreference String?
+  capabilities    Json?
+  services        Json?
+  region          String?
+  branding        Json?
+  preferences     Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenders         Tender[]
+}
+
+model TenderAnalysis {
+  id        String   @id @default(cuid())
+  tenderId  String
+  userId    String
+  status    String   @default("completed")
+  result    Json
+  confidence Int?
+  explanation String?
+  createdAt DateTime @default(now())
+  tender    Tender   @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  tenderId  String?
+  role      String
+  content   String
+  citations Json?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tender    Tender?  @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String
+  plan      String   @default("Free")
+  status    String   @default("active")
+  usage     Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  userId    String
+  provider  String
+  label     String
+  encryptedValue String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AdminLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model ProcessingJob {
+  id        String   @id @default(cuid())
+  userId    String
+  tenderId  String?
+  type      String
+  status    String   @default("queued")
+  progress  Int      @default(0)
+  error     String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tender    Tender?  @relation(fields: [tenderId], references: [id], onDelete: Cascade)
 }
