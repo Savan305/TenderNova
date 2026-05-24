@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { analyzeTender, generateProposal } from '@/lib/ai';
+import { parseTenderDeadline } from '@/lib/tender-date';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
           analysis,
           status: 'completed',
           summary: (analysis as any).summary,
-          deadline: (analysis as any).deadline ? new Date((analysis as any).deadline) : null,
+          deadline: parseTenderDeadline((analysis as any).deadline),
           budget: (analysis as any).budget,
           category: (analysis as any).category,
           eligibility: (analysis as any).eligibility,

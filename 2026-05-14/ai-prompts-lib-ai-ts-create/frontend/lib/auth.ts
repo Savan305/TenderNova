@@ -54,16 +54,36 @@ export const authOptions: NextAuthOptions = {
       if (user.email) {
         await prisma.user.upsert({
           where: { email: user.email },
-          update: { name: user.name ?? undefined, image: user.image ?? undefined },
-          create: { email: user.email, name: user.name, image: user.image }
+          update: { name: user.name ?? undefined, image: user.image ?? undefined, verified: true },
+          create: { email: user.email, name: user.name, image: user.image, verified: true }
         });
       }
       return true;
+    },
+    async jwt({ token }) {
+      if (token.email) {
+        const user = await prisma.user.findUnique({
+          where: { email: token.email },
+          select: { id: true, role: true, plan: true, name: true, image: true }
+        });
+        if (user) {
+          token.sub = user.id;
+          token.name = user.name ?? token.name;
+          token.picture = user.image ?? token.picture;
+          (token as any).role = user.role;
+          (token as any).plan = user.plan;
+        }
+      }
+      return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.email = token.email;
         session.user.name = token.name;
+        session.user.image = token.picture;
+        (session.user as any).id = token.sub;
+        (session.user as any).role = (token as any).role;
+        (session.user as any).plan = (token as any).plan;
       }
       return session;
     }

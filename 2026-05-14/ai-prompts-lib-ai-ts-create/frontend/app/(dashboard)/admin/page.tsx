@@ -1,14 +1,24 @@
 import { getServerSession } from 'next-auth';
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { AdminClient } from '@/components/admin/AdminClient';
+import { resolveAdminUser } from '@/lib/admin';
 
 export default async function AdminPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) redirect('/login');
-  const user = await prisma.user.findUnique({ where: { email: session.user.email } });
-  if (!user || !['admin', 'owner'].includes(user.role)) notFound();
+  const user = await resolveAdminUser(session.user.email);
+  if (!user) {
+    return (
+      <div className="grid min-h-[70vh] place-items-center">
+        <div className="glass max-w-lg rounded-lg p-8 text-center">
+          <h1 className="text-2xl font-bold">Admin Access Required</h1>
+          <p className="mt-3 text-slate-400">Your account is authenticated, but it does not have admin permissions for this workspace.</p>
+        </div>
+      </div>
+    );
+  }
 
   const [users, tenders, proposals, jobs, failedJobs, notifications, apiKeys, logs, recentUsers, recentJobs] = await Promise.all([
     prisma.user.count(),

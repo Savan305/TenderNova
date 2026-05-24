@@ -28,6 +28,23 @@ ANTHROPIC_API_KEY=""
 
 `MISTRAL_OCR_ENABLED="true"` sends scanned/image PDFs to Mistral OCR for text extraction.
 
+Use Google login:
+
+```env
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="replace-with-a-long-random-secret"
+GOOGLE_CLIENT_ID="your-google-oauth-client-id"
+GOOGLE_CLIENT_SECRET="your-google-oauth-client-secret"
+```
+
+In Google Cloud Console, set the authorized redirect URI to:
+
+```text
+http://localhost:3000/api/auth/callback/google
+```
+
+After changing `.env`, restart `npm run dev`.
+
 ## 2. Database
 
 From `frontend`:

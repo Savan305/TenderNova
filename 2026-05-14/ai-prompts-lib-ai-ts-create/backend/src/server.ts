@@ -5,6 +5,7 @@ import multer from 'multer';
 import { analyzeTender, compareTenders, generateProposal, streamTenderChat } from './ai';
 import { detectDocumentType, extractTextFromDocument } from './document-parser';
 import { prisma } from './prisma';
+import { parseTenderDeadline } from './tender-date';
 
 const MAX_DOCUMENT_BYTES = 200 * 1024 * 1024 * 1024;
 
@@ -100,7 +101,7 @@ app.post('/api/upload', upload.any(), async (req, res, next) => {
               analysis,
               status: 'completed',
               summary: analysis.summary,
-              deadline: analysis.deadline ? new Date(analysis.deadline) : null,
+              deadline: parseTenderDeadline(analysis.deadline),
               budget: analysis.budget,
               category: analysis.category,
               eligibility: analysis.eligibility,
@@ -144,7 +145,7 @@ app.post('/api/analyze', async (req, res, next) => {
         analysis,
         status: 'completed',
         summary: analysis.summary,
-        deadline: analysis.deadline ? new Date(analysis.deadline) : null,
+        deadline: parseTenderDeadline(analysis.deadline),
         budget: analysis.budget,
         category: analysis.category,
         eligibility: analysis.eligibility,
