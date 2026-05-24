@@ -32,11 +32,14 @@ export type UserMinAggregateOutputType = {
   image: string | null
   plan: string | null
   role: string | null
+  disabled: boolean | null
   company: string | null
   phone: string | null
   region: string | null
   verified: boolean | null
   onboarded: boolean | null
+  lastLoginAt: Date | null
+  lastSeenAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -49,11 +52,14 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   plan: string | null
   role: string | null
+  disabled: boolean | null
   company: string | null
   phone: string | null
   region: string | null
   verified: boolean | null
   onboarded: boolean | null
+  lastLoginAt: Date | null
+  lastSeenAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,11 +72,14 @@ export type UserCountAggregateOutputType = {
   image: number
   plan: number
   role: number
+  disabled: number
   company: number
   phone: number
   region: number
   verified: number
   onboarded: number
+  lastLoginAt: number
+  lastSeenAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -85,11 +94,14 @@ export type UserMinAggregateInputType = {
   image?: true
   plan?: true
   role?: true
+  disabled?: true
   company?: true
   phone?: true
   region?: true
   verified?: true
   onboarded?: true
+  lastLoginAt?: true
+  lastSeenAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,11 +114,14 @@ export type UserMaxAggregateInputType = {
   image?: true
   plan?: true
   role?: true
+  disabled?: true
   company?: true
   phone?: true
   region?: true
   verified?: true
   onboarded?: true
+  lastLoginAt?: true
+  lastSeenAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -119,11 +134,14 @@ export type UserCountAggregateInputType = {
   image?: true
   plan?: true
   role?: true
+  disabled?: true
   company?: true
   phone?: true
   region?: true
   verified?: true
   onboarded?: true
+  lastLoginAt?: true
+  lastSeenAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -209,11 +227,14 @@ export type UserGroupByOutputType = {
   image: string | null
   plan: string
   role: string
+  disabled: boolean
   company: string | null
   phone: string | null
   region: string | null
   verified: boolean
   onboarded: boolean
+  lastLoginAt: Date | null
+  lastSeenAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -247,11 +268,14 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   plan?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  disabled?: Prisma.BoolFilter<"User"> | boolean
   company?: Prisma.StringNullableFilter<"User"> | string | null
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   region?: Prisma.StringNullableFilter<"User"> | string | null
   verified?: Prisma.BoolFilter<"User"> | boolean
   onboarded?: Prisma.BoolFilter<"User"> | boolean
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  lastSeenAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   tenders?: Prisma.TenderListRelationFilter
@@ -260,9 +284,10 @@ export type UserWhereInput = {
   messages?: Prisma.ChatMessageListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   apiKeys?: Prisma.ApiKeyListRelationFilter
+  apiUsages?: Prisma.ApiUsageListRelationFilter
   adminLogs?: Prisma.AdminLogListRelationFilter
+  loginEvents?: Prisma.LoginEventListRelationFilter
   jobs?: Prisma.ProcessingJobListRelationFilter
-  subscriptions?: Prisma.SubscriptionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -273,11 +298,14 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  disabled?: Prisma.SortOrder
   company?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   region?: Prisma.SortOrderInput | Prisma.SortOrder
   verified?: Prisma.SortOrder
   onboarded?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tenders?: Prisma.TenderOrderByRelationAggregateInput
@@ -286,9 +314,10 @@ export type UserOrderByWithRelationInput = {
   messages?: Prisma.ChatMessageOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   apiKeys?: Prisma.ApiKeyOrderByRelationAggregateInput
+  apiUsages?: Prisma.ApiUsageOrderByRelationAggregateInput
   adminLogs?: Prisma.AdminLogOrderByRelationAggregateInput
+  loginEvents?: Prisma.LoginEventOrderByRelationAggregateInput
   jobs?: Prisma.ProcessingJobOrderByRelationAggregateInput
-  subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -302,11 +331,14 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   plan?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  disabled?: Prisma.BoolFilter<"User"> | boolean
   company?: Prisma.StringNullableFilter<"User"> | string | null
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   region?: Prisma.StringNullableFilter<"User"> | string | null
   verified?: Prisma.BoolFilter<"User"> | boolean
   onboarded?: Prisma.BoolFilter<"User"> | boolean
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  lastSeenAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   tenders?: Prisma.TenderListRelationFilter
@@ -315,9 +347,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   messages?: Prisma.ChatMessageListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   apiKeys?: Prisma.ApiKeyListRelationFilter
+  apiUsages?: Prisma.ApiUsageListRelationFilter
   adminLogs?: Prisma.AdminLogListRelationFilter
+  loginEvents?: Prisma.LoginEventListRelationFilter
   jobs?: Prisma.ProcessingJobListRelationFilter
-  subscriptions?: Prisma.SubscriptionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -328,11 +361,14 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  disabled?: Prisma.SortOrder
   company?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   region?: Prisma.SortOrderInput | Prisma.SortOrder
   verified?: Prisma.SortOrder
   onboarded?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -351,11 +387,14 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   plan?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
+  disabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   company?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   region?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   verified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   onboarded?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  lastSeenAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -368,11 +407,14 @@ export type UserCreateInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -381,9 +423,10 @@ export type UserCreateInput = {
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -394,11 +437,14 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -407,9 +453,10 @@ export type UserUncheckedCreateInput = {
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -420,11 +467,14 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -433,9 +483,10 @@ export type UserUpdateInput = {
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -446,11 +497,14 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -459,9 +513,10 @@ export type UserUncheckedUpdateInput = {
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -472,11 +527,14 @@ export type UserCreateManyInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -489,11 +547,14 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -506,11 +567,14 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -523,11 +587,14 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  disabled?: Prisma.SortOrder
   company?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   region?: Prisma.SortOrder
   verified?: Prisma.SortOrder
   onboarded?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -540,11 +607,14 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  disabled?: Prisma.SortOrder
   company?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   region?: Prisma.SortOrder
   verified?: Prisma.SortOrder
   onboarded?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -557,11 +627,14 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  disabled?: Prisma.SortOrder
   company?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   region?: Prisma.SortOrder
   verified?: Prisma.SortOrder
   onboarded?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -586,6 +659,10 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -648,20 +725,6 @@ export type UserUpdateOneRequiredWithoutMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMessagesInput, Prisma.UserUpdateWithoutMessagesInput>, Prisma.UserUncheckedUpdateWithoutMessagesInput>
 }
 
-export type UserCreateNestedOneWithoutSubscriptionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutSubscriptionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionsInput
-  upsert?: Prisma.UserUpsertWithoutSubscriptionsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubscriptionsInput, Prisma.UserUpdateWithoutSubscriptionsInput>, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
-}
-
 export type UserCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
@@ -690,6 +753,20 @@ export type UserUpdateOneRequiredWithoutApiKeysNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutApiKeysInput, Prisma.UserUpdateWithoutApiKeysInput>, Prisma.UserUncheckedUpdateWithoutApiKeysInput>
 }
 
+export type UserCreateNestedOneWithoutApiUsagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutApiUsagesInput, Prisma.UserUncheckedCreateWithoutApiUsagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutApiUsagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutApiUsagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutApiUsagesInput, Prisma.UserUncheckedCreateWithoutApiUsagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutApiUsagesInput
+  upsert?: Prisma.UserUpsertWithoutApiUsagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutApiUsagesInput, Prisma.UserUpdateWithoutApiUsagesInput>, Prisma.UserUncheckedUpdateWithoutApiUsagesInput>
+}
+
 export type UserCreateNestedOneWithoutAdminLogsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAdminLogsInput, Prisma.UserUncheckedCreateWithoutAdminLogsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminLogsInput
@@ -704,6 +781,22 @@ export type UserUpdateOneWithoutAdminLogsNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminLogsInput, Prisma.UserUpdateWithoutAdminLogsInput>, Prisma.UserUncheckedUpdateWithoutAdminLogsInput>
+}
+
+export type UserCreateNestedOneWithoutLoginEventsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoginEventsInput, Prisma.UserUncheckedCreateWithoutLoginEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoginEventsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutLoginEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoginEventsInput, Prisma.UserUncheckedCreateWithoutLoginEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoginEventsInput
+  upsert?: Prisma.UserUpsertWithoutLoginEventsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLoginEventsInput, Prisma.UserUpdateWithoutLoginEventsInput>, Prisma.UserUncheckedUpdateWithoutLoginEventsInput>
 }
 
 export type UserCreateNestedOneWithoutJobsInput = {
@@ -728,11 +821,14 @@ export type UserCreateWithoutTendersInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   proposals?: Prisma.ProposalCreateNestedManyWithoutUserInput
@@ -740,9 +836,10 @@ export type UserCreateWithoutTendersInput = {
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTendersInput = {
@@ -753,11 +850,14 @@ export type UserUncheckedCreateWithoutTendersInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutUserInput
@@ -765,9 +865,10 @@ export type UserUncheckedCreateWithoutTendersInput = {
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTendersInput = {
@@ -794,11 +895,14 @@ export type UserUpdateWithoutTendersInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUpdateManyWithoutUserNestedInput
@@ -806,9 +910,10 @@ export type UserUpdateWithoutTendersInput = {
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTendersInput = {
@@ -819,11 +924,14 @@ export type UserUncheckedUpdateWithoutTendersInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   proposals?: Prisma.ProposalUncheckedUpdateManyWithoutUserNestedInput
@@ -831,9 +939,10 @@ export type UserUncheckedUpdateWithoutTendersInput = {
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProposalsInput = {
@@ -844,11 +953,14 @@ export type UserCreateWithoutProposalsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -856,9 +968,10 @@ export type UserCreateWithoutProposalsInput = {
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProposalsInput = {
@@ -869,11 +982,14 @@ export type UserUncheckedCreateWithoutProposalsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -881,9 +997,10 @@ export type UserUncheckedCreateWithoutProposalsInput = {
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProposalsInput = {
@@ -910,11 +1027,14 @@ export type UserUpdateWithoutProposalsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -922,9 +1042,10 @@ export type UserUpdateWithoutProposalsInput = {
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProposalsInput = {
@@ -935,11 +1056,14 @@ export type UserUncheckedUpdateWithoutProposalsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -947,9 +1071,10 @@ export type UserUncheckedUpdateWithoutProposalsInput = {
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWorkspacesInput = {
@@ -960,11 +1085,14 @@ export type UserCreateWithoutWorkspacesInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -972,9 +1100,10 @@ export type UserCreateWithoutWorkspacesInput = {
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWorkspacesInput = {
@@ -985,11 +1114,14 @@ export type UserUncheckedCreateWithoutWorkspacesInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -997,9 +1129,10 @@ export type UserUncheckedCreateWithoutWorkspacesInput = {
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWorkspacesInput = {
@@ -1026,11 +1159,14 @@ export type UserUpdateWithoutWorkspacesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -1038,9 +1174,10 @@ export type UserUpdateWithoutWorkspacesInput = {
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkspacesInput = {
@@ -1051,11 +1188,14 @@ export type UserUncheckedUpdateWithoutWorkspacesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -1063,9 +1203,10 @@ export type UserUncheckedUpdateWithoutWorkspacesInput = {
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMessagesInput = {
@@ -1076,11 +1217,14 @@ export type UserCreateWithoutMessagesInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -1088,9 +1232,10 @@ export type UserCreateWithoutMessagesInput = {
   workspaces?: Prisma.WorkspaceCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMessagesInput = {
@@ -1101,11 +1246,14 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -1113,9 +1261,10 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMessagesInput = {
@@ -1142,11 +1291,14 @@ export type UserUpdateWithoutMessagesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -1154,9 +1306,10 @@ export type UserUpdateWithoutMessagesInput = {
   workspaces?: Prisma.WorkspaceUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -1167,11 +1320,14 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -1179,124 +1335,9 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutSubscriptionsInput = {
-  id?: string
-  name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  plan?: string
-  role?: string
-  company?: string | null
-  phone?: string | null
-  region?: string | null
-  verified?: boolean
-  onboarded?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
-  proposals?: Prisma.ProposalCreateNestedManyWithoutUserInput
-  workspaces?: Prisma.WorkspaceCreateNestedManyWithoutUserInput
-  messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
-  adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
-  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutSubscriptionsInput = {
-  id?: string
-  name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  plan?: string
-  role?: string
-  company?: string | null
-  phone?: string | null
-  region?: string | null
-  verified?: boolean
-  onboarded?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
-  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutUserInput
-  workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutUserInput
-  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
-  adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
-  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutSubscriptionsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-}
-
-export type UserUpsertWithoutSubscriptionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutSubscriptionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
-}
-
-export type UserUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
-  proposals?: Prisma.ProposalUpdateManyWithoutUserNestedInput
-  workspaces?: Prisma.WorkspaceUpdateManyWithoutUserNestedInput
-  messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
-  adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
-  jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  plan?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
-  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutUserNestedInput
-  workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutUserNestedInput
-  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
-  adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1308,11 +1349,14 @@ export type UserCreateWithoutNotificationsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -1320,9 +1364,10 @@ export type UserCreateWithoutNotificationsInput = {
   workspaces?: Prisma.WorkspaceCreateNestedManyWithoutUserInput
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1333,11 +1378,14 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -1345,9 +1393,10 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1374,11 +1423,14 @@ export type UserUpdateWithoutNotificationsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -1386,9 +1438,10 @@ export type UserUpdateWithoutNotificationsInput = {
   workspaces?: Prisma.WorkspaceUpdateManyWithoutUserNestedInput
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1399,11 +1452,14 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -1411,9 +1467,10 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutApiKeysInput = {
@@ -1424,11 +1481,14 @@ export type UserCreateWithoutApiKeysInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -1436,9 +1496,10 @@ export type UserCreateWithoutApiKeysInput = {
   workspaces?: Prisma.WorkspaceCreateNestedManyWithoutUserInput
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutApiKeysInput = {
@@ -1449,11 +1510,14 @@ export type UserUncheckedCreateWithoutApiKeysInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -1461,9 +1525,10 @@ export type UserUncheckedCreateWithoutApiKeysInput = {
   workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutApiKeysInput = {
@@ -1490,11 +1555,14 @@ export type UserUpdateWithoutApiKeysInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -1502,9 +1570,10 @@ export type UserUpdateWithoutApiKeysInput = {
   workspaces?: Prisma.WorkspaceUpdateManyWithoutUserNestedInput
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApiKeysInput = {
@@ -1515,11 +1584,14 @@ export type UserUncheckedUpdateWithoutApiKeysInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -1527,9 +1599,142 @@ export type UserUncheckedUpdateWithoutApiKeysInput = {
   workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutApiUsagesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  plan?: string
+  role?: string
+  disabled?: boolean
+  company?: string | null
+  phone?: string | null
+  region?: string | null
+  verified?: boolean
+  onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
+  proposals?: Prisma.ProposalCreateNestedManyWithoutUserInput
+  workspaces?: Prisma.WorkspaceCreateNestedManyWithoutUserInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutApiUsagesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  plan?: string
+  role?: string
+  disabled?: boolean
+  company?: string | null
+  phone?: string | null
+  region?: string | null
+  verified?: boolean
+  onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutUserInput
+  workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutApiUsagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutApiUsagesInput, Prisma.UserUncheckedCreateWithoutApiUsagesInput>
+}
+
+export type UserUpsertWithoutApiUsagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutApiUsagesInput, Prisma.UserUncheckedUpdateWithoutApiUsagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutApiUsagesInput, Prisma.UserUncheckedCreateWithoutApiUsagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutApiUsagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutApiUsagesInput, Prisma.UserUncheckedUpdateWithoutApiUsagesInput>
+}
+
+export type UserUpdateWithoutApiUsagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
+  proposals?: Prisma.ProposalUpdateManyWithoutUserNestedInput
+  workspaces?: Prisma.WorkspaceUpdateManyWithoutUserNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutApiUsagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutUserNestedInput
+  workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAdminLogsInput = {
@@ -1540,11 +1745,14 @@ export type UserCreateWithoutAdminLogsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -1553,8 +1761,9 @@ export type UserCreateWithoutAdminLogsInput = {
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAdminLogsInput = {
@@ -1565,11 +1774,14 @@ export type UserUncheckedCreateWithoutAdminLogsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -1578,8 +1790,9 @@ export type UserUncheckedCreateWithoutAdminLogsInput = {
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAdminLogsInput = {
@@ -1606,11 +1819,14 @@ export type UserUpdateWithoutAdminLogsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -1619,8 +1835,9 @@ export type UserUpdateWithoutAdminLogsInput = {
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAdminLogsInput = {
@@ -1631,11 +1848,14 @@ export type UserUncheckedUpdateWithoutAdminLogsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -1644,8 +1864,141 @@ export type UserUncheckedUpdateWithoutAdminLogsInput = {
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutLoginEventsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  plan?: string
+  role?: string
+  disabled?: boolean
+  company?: string | null
+  phone?: string | null
+  region?: string | null
+  verified?: boolean
+  onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
+  proposals?: Prisma.ProposalCreateNestedManyWithoutUserInput
+  workspaces?: Prisma.WorkspaceCreateNestedManyWithoutUserInput
+  messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
+  adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
+  jobs?: Prisma.ProcessingJobCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLoginEventsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  plan?: string
+  role?: string
+  disabled?: boolean
+  company?: string | null
+  phone?: string | null
+  region?: string | null
+  verified?: boolean
+  onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
+  proposals?: Prisma.ProposalUncheckedCreateNestedManyWithoutUserInput
+  workspaces?: Prisma.WorkspaceUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
+  adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
+  jobs?: Prisma.ProcessingJobUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLoginEventsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoginEventsInput, Prisma.UserUncheckedCreateWithoutLoginEventsInput>
+}
+
+export type UserUpsertWithoutLoginEventsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLoginEventsInput, Prisma.UserUncheckedUpdateWithoutLoginEventsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoginEventsInput, Prisma.UserUncheckedCreateWithoutLoginEventsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLoginEventsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLoginEventsInput, Prisma.UserUncheckedUpdateWithoutLoginEventsInput>
+}
+
+export type UserUpdateWithoutLoginEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
+  proposals?: Prisma.ProposalUpdateManyWithoutUserNestedInput
+  workspaces?: Prisma.WorkspaceUpdateManyWithoutUserNestedInput
+  messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
+  adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
+  jobs?: Prisma.ProcessingJobUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLoginEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
+  proposals?: Prisma.ProposalUncheckedUpdateManyWithoutUserNestedInput
+  workspaces?: Prisma.WorkspaceUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
+  adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
+  jobs?: Prisma.ProcessingJobUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobsInput = {
@@ -1656,11 +2009,14 @@ export type UserCreateWithoutJobsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderCreateNestedManyWithoutUserInput
@@ -1669,8 +2025,9 @@ export type UserCreateWithoutJobsInput = {
   messages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobsInput = {
@@ -1681,11 +2038,14 @@ export type UserUncheckedCreateWithoutJobsInput = {
   image?: string | null
   plan?: string
   role?: string
+  disabled?: boolean
   company?: string | null
   phone?: string | null
   region?: string | null
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: Date | string | null
+  lastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenders?: Prisma.TenderUncheckedCreateNestedManyWithoutUserInput
@@ -1694,8 +2054,9 @@ export type UserUncheckedCreateWithoutJobsInput = {
   messages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
+  apiUsages?: Prisma.ApiUsageUncheckedCreateNestedManyWithoutUserInput
   adminLogs?: Prisma.AdminLogUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  loginEvents?: Prisma.LoginEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobsInput = {
@@ -1722,11 +2083,14 @@ export type UserUpdateWithoutJobsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUpdateManyWithoutUserNestedInput
@@ -1735,8 +2099,9 @@ export type UserUpdateWithoutJobsInput = {
   messages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobsInput = {
@@ -1747,11 +2112,14 @@ export type UserUncheckedUpdateWithoutJobsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenders?: Prisma.TenderUncheckedUpdateManyWithoutUserNestedInput
@@ -1760,8 +2128,9 @@ export type UserUncheckedUpdateWithoutJobsInput = {
   messages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+  apiUsages?: Prisma.ApiUsageUncheckedUpdateManyWithoutUserNestedInput
   adminLogs?: Prisma.AdminLogUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  loginEvents?: Prisma.LoginEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1776,9 +2145,10 @@ export type UserCountOutputType = {
   messages: number
   notifications: number
   apiKeys: number
+  apiUsages: number
   adminLogs: number
+  loginEvents: number
   jobs: number
-  subscriptions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1788,9 +2158,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   messages?: boolean | UserCountOutputTypeCountMessagesArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   apiKeys?: boolean | UserCountOutputTypeCountApiKeysArgs
+  apiUsages?: boolean | UserCountOutputTypeCountApiUsagesArgs
   adminLogs?: boolean | UserCountOutputTypeCountAdminLogsArgs
+  loginEvents?: boolean | UserCountOutputTypeCountLoginEventsArgs
   jobs?: boolean | UserCountOutputTypeCountJobsArgs
-  subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
 }
 
 /**
@@ -1848,6 +2219,13 @@ export type UserCountOutputTypeCountApiKeysArgs<ExtArgs extends runtime.Types.Ex
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountApiUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApiUsageWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountAdminLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AdminLogWhereInput
 }
@@ -1855,15 +2233,15 @@ export type UserCountOutputTypeCountAdminLogsArgs<ExtArgs extends runtime.Types.
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProcessingJobWhereInput
+export type UserCountOutputTypeCountLoginEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LoginEventWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubscriptionWhereInput
+export type UserCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProcessingJobWhereInput
 }
 
 
@@ -1875,11 +2253,14 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   plan?: boolean
   role?: boolean
+  disabled?: boolean
   company?: boolean
   phone?: boolean
   region?: boolean
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: boolean
+  lastSeenAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenders?: boolean | Prisma.User$tendersArgs<ExtArgs>
@@ -1888,9 +2269,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   apiKeys?: boolean | Prisma.User$apiKeysArgs<ExtArgs>
+  apiUsages?: boolean | Prisma.User$apiUsagesArgs<ExtArgs>
   adminLogs?: boolean | Prisma.User$adminLogsArgs<ExtArgs>
+  loginEvents?: boolean | Prisma.User$loginEventsArgs<ExtArgs>
   jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
-  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1902,11 +2284,14 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   plan?: boolean
   role?: boolean
+  disabled?: boolean
   company?: boolean
   phone?: boolean
   region?: boolean
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: boolean
+  lastSeenAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1919,11 +2304,14 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   plan?: boolean
   role?: boolean
+  disabled?: boolean
   company?: boolean
   phone?: boolean
   region?: boolean
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: boolean
+  lastSeenAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1936,16 +2324,19 @@ export type UserSelectScalar = {
   image?: boolean
   plan?: boolean
   role?: boolean
+  disabled?: boolean
   company?: boolean
   phone?: boolean
   region?: boolean
   verified?: boolean
   onboarded?: boolean
+  lastLoginAt?: boolean
+  lastSeenAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "image" | "plan" | "role" | "company" | "phone" | "region" | "verified" | "onboarded" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "image" | "plan" | "role" | "disabled" | "company" | "phone" | "region" | "verified" | "onboarded" | "lastLoginAt" | "lastSeenAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenders?: boolean | Prisma.User$tendersArgs<ExtArgs>
   proposals?: boolean | Prisma.User$proposalsArgs<ExtArgs>
@@ -1953,9 +2344,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   apiKeys?: boolean | Prisma.User$apiKeysArgs<ExtArgs>
+  apiUsages?: boolean | Prisma.User$apiUsagesArgs<ExtArgs>
   adminLogs?: boolean | Prisma.User$adminLogsArgs<ExtArgs>
+  loginEvents?: boolean | Prisma.User$loginEventsArgs<ExtArgs>
   jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
-  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1970,9 +2362,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     messages: Prisma.$ChatMessagePayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
+    apiUsages: Prisma.$ApiUsagePayload<ExtArgs>[]
     adminLogs: Prisma.$AdminLogPayload<ExtArgs>[]
+    loginEvents: Prisma.$LoginEventPayload<ExtArgs>[]
     jobs: Prisma.$ProcessingJobPayload<ExtArgs>[]
-    subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1982,11 +2375,14 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     plan: string
     role: string
+    disabled: boolean
     company: string | null
     phone: string | null
     region: string | null
     verified: boolean
     onboarded: boolean
+    lastLoginAt: Date | null
+    lastSeenAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2389,9 +2785,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   messages<T extends Prisma.User$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   apiKeys<T extends Prisma.User$apiKeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  apiUsages<T extends Prisma.User$apiUsagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$apiUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   adminLogs<T extends Prisma.User$adminLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  loginEvents<T extends Prisma.User$loginEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$loginEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoginEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   jobs<T extends Prisma.User$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2428,11 +2825,14 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly plan: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'String'>
+  readonly disabled: Prisma.FieldRef<"User", 'Boolean'>
   readonly company: Prisma.FieldRef<"User", 'String'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
   readonly region: Prisma.FieldRef<"User", 'String'>
   readonly verified: Prisma.FieldRef<"User", 'Boolean'>
   readonly onboarded: Prisma.FieldRef<"User", 'Boolean'>
+  readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly lastSeenAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -2972,6 +3372,30 @@ export type User$apiKeysArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
+ * User.apiUsages
+ */
+export type User$apiUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApiUsage
+   */
+  select?: Prisma.ApiUsageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApiUsage
+   */
+  omit?: Prisma.ApiUsageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApiUsageInclude<ExtArgs> | null
+  where?: Prisma.ApiUsageWhereInput
+  orderBy?: Prisma.ApiUsageOrderByWithRelationInput | Prisma.ApiUsageOrderByWithRelationInput[]
+  cursor?: Prisma.ApiUsageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApiUsageScalarFieldEnum | Prisma.ApiUsageScalarFieldEnum[]
+}
+
+/**
  * User.adminLogs
  */
 export type User$adminLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2996,6 +3420,30 @@ export type User$adminLogsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.loginEvents
+ */
+export type User$loginEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LoginEvent
+   */
+  select?: Prisma.LoginEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LoginEvent
+   */
+  omit?: Prisma.LoginEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoginEventInclude<ExtArgs> | null
+  where?: Prisma.LoginEventWhereInput
+  orderBy?: Prisma.LoginEventOrderByWithRelationInput | Prisma.LoginEventOrderByWithRelationInput[]
+  cursor?: Prisma.LoginEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LoginEventScalarFieldEnum | Prisma.LoginEventScalarFieldEnum[]
+}
+
+/**
  * User.jobs
  */
 export type User$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3017,30 +3465,6 @@ export type User$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   take?: number
   skip?: number
   distinct?: Prisma.ProcessingJobScalarFieldEnum | Prisma.ProcessingJobScalarFieldEnum[]
-}
-
-/**
- * User.subscriptions
- */
-export type User$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Subscription
-   */
-  select?: Prisma.SubscriptionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Subscription
-   */
-  omit?: Prisma.SubscriptionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubscriptionInclude<ExtArgs> | null
-  where?: Prisma.SubscriptionWhereInput
-  orderBy?: Prisma.SubscriptionOrderByWithRelationInput | Prisma.SubscriptionOrderByWithRelationInput[]
-  cursor?: Prisma.SubscriptionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubscriptionScalarFieldEnum | Prisma.SubscriptionScalarFieldEnum[]
 }
 
 /**

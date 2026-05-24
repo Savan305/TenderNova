@@ -46,8 +46,8 @@ export default function ProposalsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">AI Proposals</h1><p className="mt-1 text-slate-400">Create, edit, review, and print generated proposals.</p></div><button onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-3"><Download className="h-4 w-4" /> Download as PDF</button></div>
-      <div className="glass flex flex-wrap items-center gap-3 rounded-lg p-4">
+      <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">AI Proposals</h1><p className="mt-1 text-slate-400">Create, edit, review, and print generated proposals.</p></div><button onClick={() => window.print()} className="no-print inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-3"><Download className="h-4 w-4" /> Download as PDF</button></div>
+      <div className="no-print glass flex flex-wrap items-center gap-3 rounded-lg p-4">
         <select value={tenderId} onChange={event => setTenderId(event.target.value)} className="min-h-11 min-w-[260px] flex-1 rounded-lg border border-white/10 bg-black/30 px-3 text-sm outline-none focus:border-cyanGlow">
           <option value="">Select tender to generate proposal</option>
           {tenders.map(tender => <option key={tender.id} value={tender.id}>{tender.title}</option>)}
@@ -55,7 +55,7 @@ export default function ProposalsPage() {
         <button disabled={generating} onClick={generate} className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold disabled:opacity-60"><Sparkles className="h-4 w-4" /> {generating ? 'Generating...' : 'Generate Proposal'}</button>
       </div>
       <div className="grid gap-5 xl:grid-cols-[380px_1fr]">
-        <div className="grid gap-4">
+        <div className="no-print grid gap-4">
           {!proposals.length && <div className="glass rounded-lg p-5 text-sm text-slate-400">No proposals yet. Select a tender above and generate a real AI proposal.</div>}
           {proposals.map(proposal => (
             <button key={proposal.id} onClick={() => { setSelected(proposal); setEditing(false); }} className="glass rounded-lg p-5 text-left transition hover:glow-cyan">
@@ -69,12 +69,39 @@ export default function ProposalsPage() {
         <div className="glass min-h-[640px] rounded-lg p-6">
           {!selected ? <div className="grid h-full place-items-center text-slate-400">Select a proposal to preview.</div> : (
             <div>
-              <div className="mb-5 flex justify-end gap-2"><button onClick={() => setEditing(v => !v)} className="rounded-lg bg-white/10 px-3 py-2 text-sm">Edit</button>{editing && <button onClick={save} className="inline-flex items-center gap-2 rounded-lg bg-cyanGlow px-3 py-2 text-sm font-semibold"><Save className="h-4 w-4" /> Save</button>}</div>
-              {editing ? <textarea value={selected.content} onChange={event => setSelected({ ...selected, content: event.target.value })} className="min-h-[560px] w-full rounded-lg border border-white/10 bg-black/30 p-4 outline-none focus:border-cyanGlow" /> : <article className="prose prose-invert max-w-none"><ReactMarkdown>{selected.content}</ReactMarkdown></article>}
+              <div className="no-print mb-5 flex justify-end gap-2"><button onClick={() => setEditing(v => !v)} className="rounded-lg bg-white/10 px-3 py-2 text-sm">Edit</button>{editing && <button onClick={save} className="inline-flex items-center gap-2 rounded-lg bg-cyanGlow px-3 py-2 text-sm font-semibold"><Save className="h-4 w-4" /> Save</button>}</div>
+              {editing ? <textarea value={selected.content} onChange={event => setSelected({ ...selected, content: event.target.value })} className="min-h-[560px] w-full rounded-lg border border-white/10 bg-black/30 p-4 outline-none focus:border-cyanGlow" /> : (
+                <article className="proposal-document mx-auto max-w-4xl rounded-lg bg-white/[0.025] p-6 md:p-9">
+                  <ReactMarkdown components={{
+                    h1: ({ children }) => <h1 className="mb-6 border-b border-white/10 pb-4 text-3xl font-bold leading-tight">{children}</h1>,
+                    h2: ({ children }) => <h2 className="mb-3 mt-8 text-xl font-semibold text-cyan-100">{children}</h2>,
+                    h3: ({ children }) => <h3 className="mb-2 mt-5 text-base font-semibold">{children}</h3>,
+                    p: ({ children }) => <p className="mb-4 leading-7 text-slate-200">{children}</p>,
+                    ul: ({ children }) => <ul className="mb-5 space-y-2 pl-5 text-slate-200">{children}</ul>,
+                    ol: ({ children }) => <ol className="mb-5 list-decimal space-y-2 pl-5 text-slate-200">{children}</ol>,
+                    li: ({ children }) => <li className="leading-7">{children}</li>,
+                    table: ({ children }) => <div className="my-6 overflow-x-auto"><table className="w-full border-collapse text-sm">{children}</table></div>,
+                    th: ({ children }) => <th className="border border-white/10 bg-white/10 px-3 py-2 text-left font-semibold">{children}</th>,
+                    td: ({ children }) => <td className="border border-white/10 px-3 py-2 align-top">{children}</td>
+                  }}>{cleanProposalMarkdown(selected.content)}</ReactMarkdown>
+                </article>
+              )}
             </div>
           )}
         </div>
       </div>
     </div>
   );
+}
+
+function cleanProposalMarkdown(value: string) {
+  return value
+    .replace(/\r/g, '')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/__(.*?)__/g, '$1')
+    .replace(/`{1,3}([^`]+)`{1,3}/g, '$1')
+    .replace(/^\s*---+\s*$/gm, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
 }

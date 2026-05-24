@@ -21,6 +21,104 @@ body {
   color: #eef2ff;
 }
 
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm;
+  }
+
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  aside,
+  nav,
+  button,
+  input,
+  select,
+  textarea,
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .proposal-document {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .proposal-document::before {
+    content: "TenderNova Proposal Report";
+    display: block;
+    margin-bottom: 18px;
+    border-bottom: 2px solid #111827;
+    padding-bottom: 10px;
+    color: #111827 !important;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .glass,
+  article,
+  section,
+  div {
+    background: transparent !important;
+    border-color: #d1d5db !important;
+    box-shadow: none !important;
+    color: #111827 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  h1, h2, h3, h4, p, li, span, td, th, a, strong, em {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+  }
+
+  h1 {
+    page-break-after: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+    color: #0f172a !important;
+  }
+
+  p, li {
+    font-size: 11.5pt !important;
+    line-height: 1.65 !important;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    border-bottom: 1px solid #d1d5db;
+    padding: 8px;
+  }
+
+  pre, code {
+    color: #111827 !important;
+    background: #f3f4f6 !important;
+    white-space: pre-wrap;
+  }
+}
+
 button, input, textarea, select {
   font: inherit;
 }

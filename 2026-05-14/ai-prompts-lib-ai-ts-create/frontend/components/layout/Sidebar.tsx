@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ChevronLeft, FileText, GitCompare, LayoutDashboard, MessageSquare, Settings, ShieldCheck, Sparkles, Upload } from 'lucide-react';
+import { ChevronLeft, FileText, GitCompare, LayoutDashboard, LogOut, MessageSquare, Settings, ShieldCheck, Sparkles, Upload } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { signOut } from 'next-auth/react';
 
 const items = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -15,12 +16,14 @@ const items = [
   { href: '/chatbot', label: 'AI Chatbot', icon: MessageSquare },
   { href: '/compare', label: 'Compare Tenders', icon: GitCompare },
   { href: '/settings', label: 'Settings', icon: Settings },
-  { href: '/admin', label: 'Admin Console', icon: ShieldCheck }
+  { href: '/admin', label: 'Admin Console', icon: ShieldCheck, adminOnly: true }
 ];
 
-export function Sidebar() {
+export function Sidebar({ user }: { user?: { name: string | null; email: string; role: string } | null }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const isAdmin = user?.email?.toLowerCase() === 'savanmpatel1407@gmail.com' && user?.role === 'super_admin';
+  const visibleItems = items.filter(item => !item.adminOnly || isAdmin);
 
   return (
     <motion.aside animate={{ width: collapsed ? 84 : 280 }} className="sticky top-0 hidden h-screen shrink-0 border-r border-white/10 bg-[#07080C]/95 p-4 lg:flex lg:flex-col">
@@ -32,7 +35,7 @@ export function Sidebar() {
       </Link>
 
       <nav className="flex flex-1 flex-col gap-2">
-        {items.map(item => {
+        {visibleItems.map(item => {
           const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
           const Icon = item.icon;
           return (
@@ -49,12 +52,17 @@ export function Sidebar() {
           <div className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-semibold">TN</div>
           {!collapsed && (
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">Tender Team</p>
-              <p className="mt-1 w-fit rounded-full bg-cyanGlow/15 px-2 py-0.5 text-xs text-cyan-200">Pro plan</p>
+              <p className="truncate text-sm font-semibold">{user?.name ?? user?.email ?? 'Tender Team'}</p>
+              <p className="mt-1 w-fit rounded-full bg-cyanGlow/15 px-2 py-0.5 text-xs text-cyan-200">{isAdmin ? 'System admin' : 'Workspace user'}</p>
             </div>
           )}
         </div>
       </div>
+
+      <button onClick={() => signOut({ callbackUrl: '/' })} className="mt-3 flex h-10 items-center justify-center gap-2 rounded-lg border border-white/10 text-sm text-slate-300 hover:bg-white/10" aria-label="Logout">
+        <LogOut className="h-4 w-4" />
+        {!collapsed && <span>Logout</span>}
+      </button>
 
       <button aria-label="Collapse sidebar" onClick={() => setCollapsed(value => !value)} className="mt-4 grid h-10 place-items-center rounded-lg border border-white/10 text-slate-300 hover:bg-white/10">
         <ChevronLeft className={cn('h-5 w-5 transition', collapsed && 'rotate-180')} />

@@ -1,16 +1,13 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
-import GitHubProvider from 'next-auth/providers/github';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
+import { SUPER_ADMIN_EMAIL } from '@/lib/admin';
 
 const oauthProviders = [
   process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
     ? GoogleProvider({ clientId: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET })
-    : null,
-  process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
-    ? GitHubProvider({ clientId: process.env.GITHUB_CLIENT_ID, clientSecret: process.env.GITHUB_CLIENT_SECRET })
     : null
 ].filter(Boolean) as NextAuthOptions['providers'];
 
@@ -32,19 +29,26 @@ export const authOptions: NextAuthOptions = {
         const password = credentials?.password ?? '';
         if (!email || !password) throw new Error('Email and password are required');
 
-        if (credentials?.mode === 'register') {
-          const existing = await prisma.user.findUnique({ where: { email } });
-          if (existing) throw new Error('An account with this email already exists');
-          const user = await prisma.user.create({
-            data: { email, name: credentials.name || email.split('@')[0], password: await bcrypt.hash(password, 10) }
-          });
-          return { id: user.id, email: user.email, name: user.name };
-        }
-
         const user = await prisma.user.findUnique({ where: { email } });
-        if (!user?.password) throw new Error('No account found for this email');
+        if (user && !user.verified) {
+          await logLogin({ email, provider: 'credentials', success: false, reason: 'email_unverified', userId: user.id });
+          throw new Error('Verify your email before signing in');
+        }
+        if (user?.disabled) {
+          await logLogin({ email, provider: 'credentials', success: false, reason: 'disabled', userId: user.id });
+          throw new Error('This account has been disabled');
+        }
+        if (!user?.password) {
+          await logLogin({ email, provider: 'credentials', success: false, reason: 'not_found', userId: user?.id });
+          throw new Error('No account found for this email');
+        }
         const ok = await bcrypt.compare(password, user.password);
-        if (!ok) throw new Error('Incorrect password');
+        if (!ok) {
+          await logLogin({ email, provider: 'credentials', success: false, reason: 'bad_password', userId: user.id });
+          throw new Error('Incorrect password');
+        }
+        await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date(), lastSeenAt: new Date() } });
+        await logLogin({ email, provider: 'credentials', success: true, userId: user.id });
         return { id: user.id, email: user.email, name: user.name };
       }
     })
@@ -52,11 +56,18 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       if (user.email) {
-        await prisma.user.upsert({
-          where: { email: user.email },
-          update: { name: user.name ?? undefined, image: user.image ?? undefined, verified: true },
-          create: { email: user.email, name: user.name, image: user.image, verified: true }
+        const email = user.email.toLowerCase();
+        const saved = await prisma.user.upsert({
+          where: { email },
+          update: { name: user.name ?? undefined, image: user.image ?? undefined, verified: true, role: email === SUPER_ADMIN_EMAIL ? 'super_admin' : undefined, lastLoginAt: new Date(), lastSeenAt: new Date() },
+          create: { email, name: user.name, image: user.image, verified: true, role: email === SUPER_ADMIN_EMAIL ? 'super_admin' : 'user', lastLoginAt: new Date(), lastSeenAt: new Date() }
         });
+        const existing = await prisma.user.findUnique({ where: { email }, select: { disabled: true } });
+        if (existing?.disabled) {
+          await logLogin({ email, provider: 'oauth', success: false, reason: 'disabled', userId: saved.id });
+          return false;
+        }
+        await logLogin({ email, provider: 'oauth', success: true, userId: saved.id });
       }
       return true;
     },
@@ -64,14 +75,13 @@ export const authOptions: NextAuthOptions = {
       if (token.email) {
         const user = await prisma.user.findUnique({
           where: { email: token.email },
-          select: { id: true, role: true, plan: true, name: true, image: true }
+          select: { id: true, role: true, name: true, image: true }
         });
         if (user) {
           token.sub = user.id;
           token.name = user.name ?? token.name;
           token.picture = user.image ?? token.picture;
           (token as any).role = user.role;
-          (token as any).plan = user.plan;
         }
       }
       return token;
@@ -83,9 +93,20 @@ export const authOptions: NextAuthOptions = {
         session.user.image = token.picture;
         (session.user as any).id = token.sub;
         (session.user as any).role = (token as any).role;
-        (session.user as any).plan = (token as any).plan;
       }
       return session;
     }
   }
 };
+
+async function logLogin(input: { email: string; provider: string; success: boolean; reason?: string; userId?: string }) {
+  await prisma.loginEvent.create({
+    data: {
+      email: input.email.toLowerCase(),
+      provider: input.provider,
+      success: input.success,
+      reason: input.reason,
+      userId: input.userId
+    }
+  }).catch(() => undefined);
+}

@@ -783,10 +783,6 @@ export type TenderUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TenderScalarWhereInput | Prisma.TenderScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number

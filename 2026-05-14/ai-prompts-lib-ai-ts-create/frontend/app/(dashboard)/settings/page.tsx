@@ -12,19 +12,15 @@ export default async function SettingsPage() {
     where: { email: session.user.email },
     include: {
       workspaces: { orderBy: { createdAt: 'asc' }, take: 1 },
-      subscriptions: { orderBy: { createdAt: 'desc' }, take: 1 },
-      notifications: { orderBy: { createdAt: 'desc' }, take: 10 },
-      apiKeys: { orderBy: { createdAt: 'desc' } }
+      notifications: { orderBy: { createdAt: 'desc' }, take: 10 }
     }
   });
   if (!user) redirect('/login');
 
-  const { password, apiKeys, ...safeUser } = user;
+  const { password, ...safeUser } = user;
   const data = {
     user: safeUser,
     workspace: user.workspaces[0] ?? null,
-    subscription: user.subscriptions[0] ?? { plan: user.plan, status: 'active', usage: null },
-    apiKeys: apiKeys.map(key => ({ id: key.id, provider: key.provider, label: key.label, createdAt: key.createdAt })),
     notifications: user.notifications
   };
 
@@ -32,7 +28,7 @@ export default async function SettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Settings</h1>
-        <p className="mt-1 text-slate-400">Update your real profile, workspace preferences, AI behavior, integrations, and security settings.</p>
+        <p className="mt-1 text-slate-400">Manage your account profile, notifications, and security settings.</p>
       </div>
       <SettingsClient initialData={JSON.parse(JSON.stringify(data))} />
     </div>

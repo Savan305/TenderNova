@@ -5,6 +5,8 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { parseTenderDeadline } from '@/lib/tender-date';
+import { estimateTokens, recordApiUsage } from '@/lib/api-usage';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 const MAX_DOCUMENT_BYTES = 200 * 1024 * 1024 * 1024;
 
@@ -15,6 +17,8 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const limit = checkRateLimit(`upload:${session.user.email}`, 10, 60_000);
+    if (!limit.ok) return NextResponse.json({ error: 'Too many upload requests' }, { status: 429 });
 
     const user = await prisma.user.findUnique({ where: { email: session.user.email } });
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
@@ -54,6 +58,7 @@ export async function POST(request: NextRequest) {
         });
 
         analyzeTender(text).then(async analysis => {
+          await recordApiUsage(user.id, 'upload_analysis', { tokens: estimateTokens(text, JSON.stringify(analysis)), success: true });
           const score = Number(analysis.eligibility?.score ?? analysis.successProbability ?? 0);
           await prisma.tender.update({
             where: { id: tender.id },
@@ -77,6 +82,7 @@ export async function POST(request: NextRequest) {
         }).catch(async error => {
           console.error(error);
           const message = error instanceof Error ? error.message : 'AI analysis failed';
+          await recordApiUsage(user.id, 'upload_analysis', { tokens: estimateTokens(text), success: false, error: message });
           await prisma.tender.update({ where: { id: tender.id }, data: { status: 'analysis_failed', errorMessage: message } }).catch(console.error);
           await prisma.processingJob.update({ where: { id: job.id }, data: { status: 'failed', error: message, progress: 100 } }).catch(console.error);
         });

@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { analyzeTender, generateProposal } from '@/lib/ai';
 import { parseTenderDeadline } from '@/lib/tender-date';
+import { estimateTokens, recordApiUsage } from '@/lib/api-usage';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -17,6 +19,8 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const limit = checkRateLimit(`proposal:${session.user.email}`, 12, 60_000);
+    if (!limit.ok) return NextResponse.json({ error: 'Too many proposal requests' }, { status: 429 });
     const { tenderId } = await request.json();
     if (!tenderId) return NextResponse.json({ error: 'tenderId is required' }, { status: 400 });
 
@@ -34,6 +38,7 @@ export async function POST(request: NextRequest) {
     if (!analysis) {
       await prisma.tender.update({ where: { id: tender.id }, data: { status: 'ai_analyzing', errorMessage: null } });
       analysis = await analyzeTender(tender.fileContent);
+      await recordApiUsage(user.id, 'proposal_pre_analysis', { tokens: estimateTokens(tender.fileContent, JSON.stringify(analysis)), success: true });
       const score = Number((analysis as any).eligibility?.score ?? (analysis as any).successProbability ?? 0);
       await prisma.tender.update({
         where: { id: tender.id },
@@ -64,10 +69,16 @@ export async function POST(request: NextRequest) {
     }
 
     const content = await generateProposal(tender.fileContent, analysis);
+    await recordApiUsage(user.id, 'proposal_generation', { tokens: estimateTokens(tender.fileContent, JSON.stringify(analysis), content), success: true });
     const proposal = await prisma.proposal.create({ data: { userId: user.id, tenderId: tender.id, title: `${tender.title} Proposal`, content } });
     return NextResponse.json(proposal);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Proposal generation failed';
+    const session = await getServerSession(authOptions);
+    if (session?.user?.email) {
+      const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+      if (user) await recordApiUsage(user.id, 'proposal_generation', { success: false, error: message });
+    }
     console.error(error);
     return NextResponse.json({ error: message }, { status: 500 });
   }

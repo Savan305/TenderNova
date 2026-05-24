@@ -7,7 +7,7 @@ import { formatDate } from '@/lib/utils';
 import { RiskBadge } from '@/components/tender/RiskBadge';
 import { useToast } from '@/components/ui/Toast';
 
-const columns = ['ai_analyzing', 'completed', 'proposal', 'submitted', 'won'];
+const columns = ['completed', 'archived'];
 
 export function TenderManager({ initialTenders }: { initialTenders: any[] }) {
   const [tenders, setTenders] = useState(initialTenders);
@@ -49,12 +49,12 @@ export function TenderManager({ initialTenders }: { initialTenders: any[] }) {
           </label>
           <select value={status} onChange={event => setStatus(event.target.value)} className="rounded-lg border border-white/10 bg-[#111827] px-4 py-3 text-sm outline-none">
             <option value="all">All statuses</option>
-            {['ai_analyzing', 'completed', 'analysis_failed', 'proposal', 'submitted', 'won', 'lost', 'archived'].map(item => <option key={item} value={item}>{item}</option>)}
+            {['completed', 'analysis_failed', 'lost', 'archived'].map(item => <option key={item} value={item}>{item}</option>)}
           </select>
         </div>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2">
         {columns.map(column => (
           <div key={column} className="rounded-lg border border-white/10 bg-white/[0.025] p-3">
             <div className="mb-3 flex items-center justify-between">

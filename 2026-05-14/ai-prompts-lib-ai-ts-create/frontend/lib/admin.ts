@@ -1,16 +1,25 @@
 import { prisma } from '@/lib/prisma';
 
-export async function resolveAdminUser(email: string) {
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) return null;
-  if (['admin', 'owner'].includes(user.role)) return user;
+export const SUPER_ADMIN_EMAIL = 'savanmpatel1407@gmail.com';
 
-  if (process.env.NODE_ENV !== 'production') {
+export async function resolveAdminUser(email: string) {
+  const normalized = email.toLowerCase();
+  if (normalized !== SUPER_ADMIN_EMAIL) return null;
+
+  const user = await prisma.user.findUnique({ where: { email: normalized } });
+  if (!user) return null;
+  if (user.disabled) return null;
+
+  if (user.role !== 'super_admin') {
     return prisma.user.update({
       where: { id: user.id },
-      data: { role: 'admin', plan: user.plan || 'Pro' }
+      data: { role: 'super_admin', verified: true, disabled: false }
     });
   }
 
-  return null;
+  return user;
+}
+
+export function isSuperAdmin(user: { email: string; role: string }) {
+  return user.email.toLowerCase() === SUPER_ADMIN_EMAIL && user.role === 'super_admin';
 }

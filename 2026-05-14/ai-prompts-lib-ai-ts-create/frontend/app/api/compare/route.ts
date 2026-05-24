@@ -3,10 +3,14 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { compareTenders } from '@/lib/ai';
+import { estimateTokens, recordApiUsage } from '@/lib/api-usage';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const limit = checkRateLimit(`compare:${session.user.email}`, 20, 60_000);
+  if (!limit.ok) return NextResponse.json({ error: 'Too many comparison requests' }, { status: 429 });
 
   const { tenderIds } = await request.json();
   if (!Array.isArray(tenderIds) || tenderIds.length < 2) {
@@ -33,7 +37,15 @@ export async function POST(request: NextRequest) {
     scorecard: localComparison.comparison.find(row => row.tenderId === tender.id)
   }));
 
-  const aiComparison = await compareTenders(aiPayload).catch(() => null);
+  const aiComparison = await compareTenders(aiPayload)
+    .then(async result => {
+      await recordApiUsage(user.id, 'tender_comparison', { tokens: estimateTokens(JSON.stringify(aiPayload), JSON.stringify(result)), success: true });
+      return result;
+    })
+    .catch(async error => {
+      await recordApiUsage(user.id, 'tender_comparison', { tokens: estimateTokens(JSON.stringify(aiPayload)), success: false, error: error instanceof Error ? error.message : 'Comparison failed' });
+      return null;
+    });
   const comparison = mergeAiNarrative(localComparison, aiComparison);
 
   await prisma.adminLog.create({

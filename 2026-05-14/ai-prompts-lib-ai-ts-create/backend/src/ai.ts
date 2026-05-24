@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import Anthropic from '@anthropic-ai/sdk';
+import { getProviderKeys, markKeyFailure, markKeySuccess } from './api-keys';
 
 type ChatMessage = { role: string; content: string };
 type TenderForComparison = {
@@ -18,11 +19,11 @@ const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-20250514
 const MISTRAL_MODEL = process.env.MISTRAL_MODEL ?? 'mistral-large-latest';
 const MISTRAL_API_URL = process.env.MISTRAL_API_URL ?? 'https://api.mistral.ai/v1/chat/completions';
 
-function anthropicClient() {
-  if (!process.env.ANTHROPIC_API_KEY) {
+function anthropicClient(apiKey = process.env.ANTHROPIC_API_KEY) {
+  if (!apiKey) {
     throw new Error('ANTHROPIC_API_KEY is not set. Set AI_PROVIDER="mistral" to use Mistral instead.');
   }
-  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  return new Anthropic({ apiKey });
 }
 
 function anthropicText(response: any) {
@@ -32,28 +33,37 @@ function anthropicText(response: any) {
 }
 
 async function mistralComplete(messages: ChatMessage[], maxTokens: number, system?: string) {
-  const apiKey = process.env.MISTRAL_API_KEY;
-  if (!apiKey) throw new Error('MISTRAL_API_KEY is not set');
+  const keys = await getProviderKeys('mistral');
+  if (!keys.length) throw new Error('No active Mistral API key is configured');
 
-  const response = await fetch(MISTRAL_API_URL, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: MISTRAL_MODEL,
-      max_tokens: maxTokens,
-      messages: [
-        ...(system ? [{ role: 'system', content: system }] : []),
-        ...messages.map(m => ({ role: m.role, content: m.content }))
-      ]
-    })
-  });
+  let lastError = '';
+  for (const key of keys) {
+    const response = await fetch(MISTRAL_API_URL, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key.value}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: MISTRAL_MODEL,
+        max_tokens: maxTokens,
+        messages: [
+          ...(system ? [{ role: 'system', content: system }] : []),
+          ...messages.map(m => ({ role: m.role, content: m.content }))
+        ]
+      })
+    });
 
-  if (!response.ok) throw new Error(`Mistral API error: ${response.status} ${await response.text()}`);
-  const data = await response.json();
-  return data.choices?.[0]?.message?.content ?? '';
+    if (response.ok) {
+      const data = await response.json();
+      const text = data.choices?.[0]?.message?.content ?? '';
+      await markKeySuccess(key.id, estimateTokens(messages, text));
+      return text;
+    }
+
+    lastError = `Mistral API error: ${response.status} ${await response.text()}`;
+    await markKeyFailure(key.id);
+    if (![401, 403, 429, 500, 502, 503, 504].includes(response.status)) break;
+  }
+
+  throw new Error(lastError || 'Mistral API request failed');
 }
 
 async function completeText(messages: ChatMessage[], maxTokens: number, system?: string) {
@@ -87,25 +97,43 @@ export async function streamTenderChat(messages: ChatMessage[], tenderText: stri
   const system = `You are TenderNova AI, a professional tender intelligence assistant for procurement and bid teams. Be concise, business-focused, analytical, and grounded in the uploaded tender. Help with eligibility, compliance, risks, proposal strategy, deadlines, required documents, and government tender terminology. Reference relevant clauses or document snippets when possible. Tender: ${tenderText.slice(0, 6000)}`;
 
   if (provider === 'mistral') {
-    const apiKey = process.env.MISTRAL_API_KEY;
-    if (!apiKey) throw new Error('MISTRAL_API_KEY is not set');
-    const response = await fetch(MISTRAL_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: MISTRAL_MODEL,
-        max_tokens: 1000,
-        stream: true,
-        messages: [{ role: 'system', content: system }, ...messages]
-      })
-    });
-    if (!response.ok || !response.body) throw new Error(`Mistral API error: ${response.status} ${await response.text()}`);
+    const keys = await getProviderKeys('mistral');
+    if (!keys.length) throw new Error('No active Mistral API key is configured');
+
+    let response: Response | null = null;
+    let activeKeyId: string | undefined;
+    let lastError = '';
+    for (const key of keys) {
+      response = await fetch(MISTRAL_API_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${key.value}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: MISTRAL_MODEL,
+          max_tokens: 1000,
+          stream: true,
+          messages: [{ role: 'system', content: system }, ...messages]
+        })
+      });
+
+      if (response.ok && response.body) {
+        activeKeyId = key.id;
+        break;
+      }
+
+      await markKeyFailure(key.id);
+      lastError = `Mistral API error: ${response.status} ${await response.text()}`;
+      if (![401, 403, 429, 500, 502, 503, 504].includes(response.status)) break;
+    }
+
+    if (!response?.ok || !response.body) throw new Error(lastError || 'Mistral API stream failed');
+
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     const encoder = new TextEncoder();
+    let streamedText = '';
     return new ReadableStream({
       async start(controller) {
         while (true) {
@@ -123,8 +151,12 @@ export async function streamTenderChat(messages: ChatMessage[], tenderText: stri
               }
             })
             .join('');
-          if (text) controller.enqueue(encoder.encode(text));
+          if (text) {
+            streamedText += text;
+            controller.enqueue(encoder.encode(text));
+          }
         }
+        await markKeySuccess(activeKeyId, estimateTokens(messages, streamedText));
         controller.close();
       }
     });
@@ -157,7 +189,7 @@ export async function analyzeTender(text: string) {
     content: `Analyze this tender document and return ONLY valid JSON (no markdown):
 {
   "title": "tender title",
-  "summary": "2-3 sentence summary",
+  "summary": "1-2 concise business sentences",
   "deadline": "deadline date or null",
   "budget": "budget amount or null",
   "category": "category type",
@@ -183,25 +215,25 @@ export async function analyzeTender(text: string) {
   "weaknesses": ["specific bid weaknesses"],
   "improvementSuggestions": ["specific actions to improve win chances"],
   "confidence": 0-100,
-  "explainability": "brief explanation of score and key drivers"
+  "explainability": "one concise sentence explaining score drivers"
 }
 Tender text: ${text.slice(0, 8000)}`
-  }], 2000);
+  }], 1400);
   return parseJsonResponse(content);
 }
 
 export async function generateProposal(tenderText: string, analysis: any) {
   return completeText([{
     role: 'user',
-    content: `Generate a professional tender proposal based on this tender.
+    content: `Generate a concise professional tender proposal based on this tender.
 Analysis: ${JSON.stringify(analysis)}
 Tender excerpt: ${tenderText.slice(0, 4000)}
-Write a complete, professional proposal with: Executive Summary, Company Overview placeholder, Technical Approach, Team & Qualifications placeholder, Timeline, Pricing Strategy, Why Choose Us. Use markdown formatting.`
-  }], 3000);
+Use clear section headings without markdown symbols. Include: Executive Summary, Company Overview, Technical Approach, Team and Qualifications, Timeline, Commercial Approach, Why Choose Us. Do not use placeholder brackets.`
+  }], 2200);
 }
 
 export async function chatWithTender(messages: ChatMessage[], tenderText: string) {
-  const system = `You are TenderNova AI, an expert tender analysis assistant for bid managers. Answer in a professional, concise, business-oriented tone. Use the tender document context, maintain continuity with prior messages, explain risks and eligibility clearly, and cite relevant clauses or text snippets when available. Tender document: ${tenderText.slice(0, 6000)}`;
+  const system = `You are TenderNova AI, an expert tender analysis assistant for bid managers. Answer in a professional, concise, business-oriented tone. Use plain text with no markdown symbols. Keep answers brief, readable, and grounded in the tender document. Tender document: ${tenderText.slice(0, 6000)}`;
   return completeText(messages, 1000, system);
 }
 
@@ -233,6 +265,10 @@ export async function compareTenders(tenders: TenderForComparison[]) {
   "summary": "overall comparison summary"
 }
 Tenders: ${JSON.stringify(tenders)}`
-  }], 2000);
+  }], 1400);
   return parseJsonResponse(content);
+}
+
+function estimateTokens(messages: ChatMessage[], text: string) {
+  return Math.ceil((JSON.stringify(messages).length + text.length) / 4);
 }

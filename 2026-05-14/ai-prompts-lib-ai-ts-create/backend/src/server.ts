@@ -22,7 +22,7 @@ app.use(cors({ origin: process.env.FRONTEND_URL ?? 'http://localhost:3000' }));
 app.use(express.json({ limit: '2mb' }));
 
 async function currentUser(req: express.Request) {
-  const email = String(req.header('x-user-email') || process.env.DEMO_USER_EMAIL || 'demo@tendernova.ai').toLowerCase();
+  const email = String(req.header('x-user-email') || process.env.ADMIN_EMAIL || 'savanmpatel1407@gmail.com').toLowerCase();
   return prisma.user.findUnique({ where: { email } });
 }
 

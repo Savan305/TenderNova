@@ -57,10 +57,13 @@ export const ModelName = {
   Workspace: 'Workspace',
   TenderAnalysis: 'TenderAnalysis',
   ChatMessage: 'ChatMessage',
-  Subscription: 'Subscription',
   Notification: 'Notification',
+  ContactMessage: 'ContactMessage',
+  EmailOtp: 'EmailOtp',
   ApiKey: 'ApiKey',
+  ApiUsage: 'ApiUsage',
   AdminLog: 'AdminLog',
+  LoginEvent: 'LoginEvent',
   ProcessingJob: 'ProcessingJob'
 } as const
 
@@ -88,11 +91,14 @@ export const UserScalarFieldEnum = {
   image: 'image',
   plan: 'plan',
   role: 'role',
+  disabled: 'disabled',
   company: 'company',
   phone: 'phone',
   region: 'region',
   verified: 'verified',
   onboarded: 'onboarded',
+  lastLoginAt: 'lastLoginAt',
+  lastSeenAt: 'lastSeenAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -189,19 +195,6 @@ export const ChatMessageScalarFieldEnum = {
 export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
 
 
-export const SubscriptionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  plan: 'plan',
-  status: 'status',
-  usage: 'usage',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
-
-
 export const NotificationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -215,16 +208,74 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const ContactMessageScalarFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  email: 'email',
+  subject: 'subject',
+  message: 'message',
+  status: 'status',
+  emailDelivered: 'emailDelivered',
+  emailError: 'emailError',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
+export const EmailOtpScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  userId: 'userId',
+  codeHash: 'codeHash',
+  purpose: 'purpose',
+  expiresAt: 'expiresAt',
+  attempts: 'attempts',
+  lastSentAt: 'lastSentAt',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailOtpScalarFieldEnum = (typeof EmailOtpScalarFieldEnum)[keyof typeof EmailOtpScalarFieldEnum]
+
+
 export const ApiKeyScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   provider: 'provider',
   label: 'label',
   encryptedValue: 'encryptedValue',
-  createdAt: 'createdAt'
+  keyPreview: 'keyPreview',
+  status: 'status',
+  priority: 'priority',
+  requestCount: 'requestCount',
+  failedCount: 'failedCount',
+  tokenUsage: 'tokenUsage',
+  tokenLimit: 'tokenLimit',
+  rateLimitPerDay: 'rateLimitPerDay',
+  lastUsedAt: 'lastUsedAt',
+  rotatedAt: 'rotatedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
+
+
+export const ApiUsageScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  apiKeyId: 'apiKeyId',
+  provider: 'provider',
+  endpoint: 'endpoint',
+  tokens: 'tokens',
+  success: 'success',
+  error: 'error',
+  createdAt: 'createdAt'
+} as const
+
+export type ApiUsageScalarFieldEnum = (typeof ApiUsageScalarFieldEnum)[keyof typeof ApiUsageScalarFieldEnum]
 
 
 export const AdminLogScalarFieldEnum = {
@@ -236,6 +287,21 @@ export const AdminLogScalarFieldEnum = {
 } as const
 
 export type AdminLogScalarFieldEnum = (typeof AdminLogScalarFieldEnum)[keyof typeof AdminLogScalarFieldEnum]
+
+
+export const LoginEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  email: 'email',
+  provider: 'provider',
+  success: 'success',
+  reason: 'reason',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+} as const
+
+export type LoginEventScalarFieldEnum = (typeof LoginEventScalarFieldEnum)[keyof typeof LoginEventScalarFieldEnum]
 
 
 export const ProcessingJobScalarFieldEnum = {
