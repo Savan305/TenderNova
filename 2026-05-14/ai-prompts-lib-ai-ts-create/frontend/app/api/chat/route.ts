@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { streamTenderChat } from '@backend/ai';
+import { streamTenderChat } from '@/lib/ai';
 import { estimateTokens, recordApiUsage } from '@/lib/api-usage';
 import { checkRateLimit } from '@/lib/rate-limit';
 

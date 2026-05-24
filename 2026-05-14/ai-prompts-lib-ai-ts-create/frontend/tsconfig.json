@@ -18,12 +18,11 @@
     "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["./*"],
-      "@backend/*": ["../backend/src/*"],
       "@anthropic-ai/sdk": ["./node_modules/@anthropic-ai/sdk"],
       "@prisma/adapter-pg": ["./node_modules/@prisma/adapter-pg"],
       "pdf-parse": ["./node_modules/pdf-parse"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../backend/src/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
