@@ -110,7 +110,7 @@ RESEND_API_KEY="your_resend_api_key"
 CONTACT_FROM_EMAIL="TenderNova <onboarding@resend.dev>"
 CONTACT_TO_EMAIL="your_resend_account_email"
 
-ADMIN_EMAIL="savanmpatel1407@gmail.com"
+ADMIN_EMAIL=" "
 SUPER_ADMIN_PASSWORD="your_admin_password"
 ```
 
