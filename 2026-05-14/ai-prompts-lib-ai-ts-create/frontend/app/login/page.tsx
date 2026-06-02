@@ -168,18 +168,19 @@ export default function LoginPage() {
         <form onSubmit={submit} className="glass w-full max-w-md rounded-lg p-7 shadow-glass">
           <Brand />
           <h1 className="text-3xl font-bold">{mode === 'register' ? 'Create account' : 'Welcome back'}</h1>
-          <p className="mt-2 text-sm text-slate-400">{mode === 'register' ? 'Create an account and verify your email with a secure OTP.' : 'Sign in with Google or your verified email account.'}</p>
+          <p className="mt-2 text-sm text-slate-400">{mode === 'register' ? 'Create your TenderNova account securely with Google.' : 'Sign in with Google or your verified email account.'}</p>
           <button type="button" onClick={googleLogin} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold hover:bg-white/10">
             <GoogleMark /> Continue with Google
           </button>
-          <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-slate-500"><span className="h-px flex-1 bg-white/10" /> or <span className="h-px flex-1 bg-white/10" /></div>
-          {mode === 'register' && <input name="name" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-cyanGlow" placeholder="Name" />}
-          <input required name="email" type="email" className="mt-4 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-cyanGlow" placeholder="Email" />
-          <input required name="password" type="password" minLength={mode === 'register' ? 8 : undefined} className="mt-4 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-cyanGlow" placeholder="Password" />
-          <button disabled={loading} className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold disabled:opacity-60">
-            {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {mode === 'register' ? 'Create account' : 'Login'}
-          </button>
+          {mode === 'login' && <>
+            <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-slate-500"><span className="h-px flex-1 bg-white/10" /> or <span className="h-px flex-1 bg-white/10" /></div>
+            <input required name="email" type="email" className="mt-4 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-cyanGlow" placeholder="Email" />
+            <input required name="password" type="password" className="mt-4 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-cyanGlow" placeholder="Password" />
+            <button disabled={loading} className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold disabled:opacity-60">
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+              Login
+            </button>
+          </>}
           <button type="button" onClick={() => setMode(mode === 'register' ? 'login' : 'register')} className="mt-4 w-full text-sm text-cyan-200">
             {mode === 'register' ? 'Already have an account? Login' : 'Need an account? Register'}
           </button>

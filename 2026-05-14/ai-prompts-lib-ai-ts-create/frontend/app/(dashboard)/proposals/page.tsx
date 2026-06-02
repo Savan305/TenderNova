@@ -47,12 +47,23 @@ export default function ProposalsPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">AI Proposals</h1><p className="mt-1 text-slate-400">Create, edit, review, and print generated proposals.</p></div><button onClick={() => window.print()} className="no-print inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-3"><Download className="h-4 w-4" /> Download as PDF</button></div>
-      <div className="no-print glass flex flex-wrap items-center gap-3 rounded-lg p-4">
-        <select value={tenderId} onChange={event => setTenderId(event.target.value)} className="min-h-11 min-w-[260px] flex-1 rounded-lg border border-white/10 bg-black/30 px-3 text-sm outline-none focus:border-cyanGlow">
-          <option value="">Select tender to generate proposal</option>
-          {tenders.map(tender => <option key={tender.id} value={tender.id}>{tender.title}</option>)}
-        </select>
-        <button disabled={generating} onClick={generate} className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold disabled:opacity-60"><Sparkles className="h-4 w-4" /> {generating ? 'Generating...' : 'Generate Proposal'}</button>
+      <div className="no-print glass rounded-lg p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="font-semibold">Generate proposal</h2>
+            <p className="mt-1 text-sm text-slate-400">{tenderId ? tenders.find(tender => tender.id === tenderId)?.title : 'Choose one tender below.'}</p>
+          </div>
+          <button disabled={generating || !tenderId} onClick={generate} className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold disabled:opacity-60"><Sparkles className="h-4 w-4" /> {generating ? 'Generating...' : 'Generate Proposal'}</button>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {tenders.map(tender => (
+            <button key={tender.id} type="button" onClick={() => setTenderId(tender.id)} className={`rounded-lg border p-4 text-left text-sm transition ${tenderId === tender.id ? 'border-cyanGlow bg-cyanGlow/10 text-white glow-cyan' : 'border-white/10 bg-black/20 text-slate-300 hover:border-white/25 hover:bg-white/5'}`}>
+              <span className="line-clamp-2 font-medium">{tender.title}</span>
+              <span className="mt-2 block text-xs text-slate-500">{tender.category || tender.status || 'Tender document'}</span>
+            </button>
+          ))}
+        </div>
+        {!tenders.length && <p className="mt-4 rounded-lg border border-dashed border-white/10 p-4 text-sm text-slate-400">Upload a tender before generating proposals.</p>}
       </div>
       <div className="grid gap-5 xl:grid-cols-[380px_1fr]">
         <div className="no-print grid gap-4">
