@@ -48,6 +48,13 @@ export default function LoginPage() {
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error ?? 'Could not create account.');
+        if (result.verified) {
+          toast(result.warning ?? 'Account created successfully.', 'success');
+          const login = await signIn('credentials', { redirect: false, email, password });
+          if (login?.ok) router.push('/dashboard');
+          else setMode('login');
+          return;
+        }
         setPending({ email, password });
         setStep('otp');
         setResendSeconds(60);

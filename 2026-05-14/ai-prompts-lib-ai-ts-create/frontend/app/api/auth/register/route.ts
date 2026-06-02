@@ -57,6 +57,11 @@ export async function POST(request: NextRequest) {
   });
 
   if (!delivery.ok) {
+    if (process.env.ALLOW_UNVERIFIED_EMAIL_SIGNUP === 'true') {
+      await prisma.emailOtp.deleteMany({ where: { email, purpose: 'signup' } });
+      await prisma.user.update({ where: { id: user.id }, data: { verified: true, disabled: false } });
+      return NextResponse.json({ ok: true, email, verified: true, warning: 'Email delivery is unavailable, so verification was skipped.' });
+    }
     return NextResponse.json({ error: delivery.error || 'Could not send verification email.' }, { status: 502 });
   }
 
