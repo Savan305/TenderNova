@@ -1,0 +1,15 @@
+{
+  "name": "tendernova",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix frontend run start",
+    "lint": "npm --prefix frontend run lint",
+    "seed": "npm --prefix frontend run seed",
+    "db:push": "npm --prefix frontend exec prisma db push",
+    "prisma:generate": "npm --prefix frontend exec prisma generate",
+    "postinstall": "npm --prefix frontend install"
+  }
+}
