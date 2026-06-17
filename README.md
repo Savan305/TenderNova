@@ -10,7 +10,7 @@ The platform is built as a production-style SaaS application with authentication
 https://tender-nova-qrof.vercel.app
 ```
 
-## Key Features
+# Key Features
 
 - Google authentication with protected dashboard routes
 - Tender upload support for PDF, DOCX, and TXT documents
