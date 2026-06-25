@@ -84,7 +84,7 @@ TenderNova/
 | `/about` | About and team page |
 | `/contact` | Contact form |
 
-## Environment Variables
+# Environment Variables
 
 Create a `.env` file inside the `frontend` folder.
 
