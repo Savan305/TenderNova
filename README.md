@@ -38,7 +38,7 @@ https://tender-nova-qrof.vercel.app
 | Charts | Recharts |
 | Deployment | Vercel |
 
-## Project Structure
+# Project Structure
 
 ```text
 TenderNova/
