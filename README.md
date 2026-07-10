@@ -69,7 +69,7 @@ TenderNova/
 ## Important Pages
 
 | Page | Purpose |
-| --- | --- |
+| --- | - |
 | `/` | SaaS landing page |
 | `/login` | Authentication page |
 | `/dashboard` | Main analytics dashboard |
