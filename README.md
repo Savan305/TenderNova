@@ -26,7 +26,7 @@ https://tender-nova-qrof.vercel.app
 ## Tech Stack
 
 | Layer | Technology |
-| --- | --- |
+| --- | -- |
 | Frontend | Next.js, React, TypeScript |
 | Styling | Tailwind CSS, Framer Motion, Lucide Icons |
 | Authentication | NextAuth, Google OAuth |
