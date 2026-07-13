@@ -31,7 +31,7 @@ export default async function DashboardPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div><h1 className="text-3xl font-bold">Dashboard</h1><p className="mt-1 text-slate-400">Tender intelligence overview and next actions.</p></div>
-        <Link href="/upload" className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold"><Upload className="h-4 w-4" /> Upload tender</Link>
+        <Link href="/upload" className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold sm:w-auto"><Upload className="h-4 w-4" /> Upload tender</Link>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {stats.map(({ label, value, Icon }) => <div key={label} className="glass rounded-lg p-5"><Icon className="h-5 w-5 text-cyan-200" /><p className="mt-4 text-sm text-slate-400">{label}</p><p className="mt-1 text-3xl font-bold">{value}</p></div>)}
@@ -41,9 +41,9 @@ export default async function DashboardPage() {
         <div className="glass rounded-lg p-5">
           <h2 className="font-semibold">Recent Tenders</h2>
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full text-left text-sm">
+            <table className="min-w-[680px] w-full text-left text-sm">
               <thead className="text-slate-400"><tr><th className="py-3">Title</th><th>Status</th><th>Category</th><th>Deadline</th></tr></thead>
-              <tbody>{tenders.map(t => <tr key={t.id} className="border-t border-white/10"><td className="py-3">{t.title}</td><td><span className="rounded-full bg-cyanGlow/15 px-2 py-1 text-xs text-cyan-200">{t.status}</span></td><td>{t.category ?? 'General'}</td><td>{t.deadline?.toLocaleDateString() ?? 'Open'}</td></tr>)}</tbody>
+              <tbody>{tenders.map(t => <tr key={t.id} className="border-t border-white/10"><td className="max-w-[280px] py-3 break-words">{t.title}</td><td><span className="rounded-full bg-cyanGlow/15 px-2 py-1 text-xs text-cyan-200">{t.status}</span></td><td className="break-words">{t.category ?? 'General'}</td><td>{t.deadline?.toLocaleDateString() ?? 'Open'}</td></tr>)}</tbody>
             </table>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Sidebar } from '@/components/layout/Sidebar';
+import { DashboardMobileNav, Sidebar } from '@/components/layout/Sidebar';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
@@ -17,9 +17,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="min-h-screen [background:radial-gradient(circle_at_top_right,rgba(6,182,212,0.14),transparent_28%),#0A0B0F]">
+      <DashboardMobileNav user={user} />
       <div className="flex">
         <Sidebar user={user} />
-        <main className="min-w-0 flex-1 px-4 py-5 lg:px-8">{children}</main>
+        <main className="min-w-0 flex-1 px-3 py-4 sm:px-4 lg:px-8 lg:py-5">{children}</main>
       </div>
     </div>
   );

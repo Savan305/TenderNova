@@ -66,11 +66,11 @@ export default function UploadPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div><h1 className="text-3xl font-bold">Upload Workspace</h1><p className="mt-1 text-slate-400">Drop PDF, DOCX, or TXT files. TenderNova extracts context, runs OCR when needed, and starts AI analysis.</p></div>
-      <div {...getRootProps()} className={`grid min-h-[380px] cursor-pointer place-items-center rounded-lg border border-dashed p-8 text-center transition ${isDragActive ? 'border-cyanGlow bg-cyanGlow/10 glow-cyan' : 'border-white/15 bg-white/[0.03]'} ${busy ? 'animate-pulseBorder' : ''}`}>
+      <div {...getRootProps()} className={`grid min-h-[280px] cursor-pointer place-items-center rounded-lg border border-dashed p-5 text-center transition sm:min-h-[380px] sm:p-8 ${isDragActive ? 'border-cyanGlow bg-cyanGlow/10 glow-cyan' : 'border-white/15 bg-white/[0.03]'} ${busy ? 'animate-pulseBorder' : ''}`}>
         <input {...getInputProps()} />
         <div>
           <div className="mx-auto grid h-20 w-20 place-items-center rounded-lg bg-gradient-to-br from-indigoGlow to-cyanGlow"><FileUp className="h-9 w-9" /></div>
-          <h2 className="mt-6 text-2xl font-bold">{busy ? 'Analyzing with AI...' : 'Drag and drop tender documents'}</h2>
+          <h2 className="mt-6 text-xl font-bold sm:text-2xl">{busy ? 'Analyzing with AI...' : 'Drag and drop tender documents'}</h2>
           <p className="mt-3 text-slate-400">PDF, DOCX, TXT. Multi-file upload. Max {MAX_DOCUMENT_LABEL} each.</p>
           {busy && (
             <div className="mx-auto mt-8 max-w-md">
@@ -82,7 +82,7 @@ export default function UploadPage() {
       </div>
       {queue.length > 0 && (
         <div className="glass rounded-lg p-5">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="font-semibold">Upload queue</h2>
             <button disabled={busy} onClick={uploadFiles} className="rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-2 text-sm font-semibold disabled:opacity-60">Process {queue.length} file(s)</button>
           </div>

@@ -60,10 +60,10 @@ export function ChatInterface({ tenders }: { tenders: any[] }) {
   }
 
   return (
-    <div className="grid h-[calc(100vh-7rem)] overflow-hidden rounded-lg border border-white/10 bg-[#080A0F] lg:grid-cols-[320px_1fr]">
+    <div className="grid min-h-[calc(100dvh-5rem)] overflow-hidden rounded-lg border border-white/10 bg-[#080A0F] lg:h-[calc(100vh-7rem)] lg:grid-cols-[320px_1fr]">
       <aside className="min-h-0 border-b border-white/10 p-4 lg:border-b-0 lg:border-r">
         <p className="mb-3 text-sm font-semibold text-slate-300">Tender context</p>
-        <div className="max-h-[calc(100%-2rem)] space-y-2 overflow-y-auto pr-1">
+        <div className="max-h-44 space-y-2 overflow-y-auto pr-1 lg:max-h-[calc(100%-2rem)]">
           {tenders.map(tender => (
             <button key={tender.id} onClick={() => setSelected(tender.id)} className={`w-full rounded-lg p-3 text-left text-sm transition ${selected === tender.id ? 'bg-cyanGlow/15 text-white ring-1 ring-cyanGlow/30' : 'bg-white/[0.04] text-slate-300 hover:bg-white/10'}`}>
               <span className="line-clamp-2">{tender.title}</span>
@@ -80,7 +80,7 @@ export function ChatInterface({ tenders }: { tenders: any[] }) {
           <p className="mt-1 text-xs text-slate-500">TenderNova answers from the uploaded document context.</p>
         </header>
 
-        <div ref={scroller} className="flex-1 space-y-5 overflow-y-auto px-4 py-5 md:px-6">
+        <div ref={scroller} className="min-h-[280px] flex-1 space-y-5 overflow-y-auto px-3 py-4 sm:px-4 md:px-6">
           {messages.length === 0 && (
             <div className="grid h-full place-items-center text-center">
               <div>
@@ -98,7 +98,7 @@ export function ChatInterface({ tenders }: { tenders: any[] }) {
               <button key={suggestion} disabled={loading || !selected} onClick={() => submit(suggestion)} className="shrink-0 rounded-full bg-white/[0.06] px-3 py-1.5 text-xs text-slate-200 hover:bg-white/12 disabled:opacity-50">{suggestion}</button>
             ))}
           </div>
-          <form onSubmit={onSubmit} className="flex gap-3">
+          <form onSubmit={onSubmit} className="flex gap-2 sm:gap-3">
             <input value={input} disabled={!selected} onChange={event => setInput(event.target.value)} className="min-w-0 flex-1 rounded-lg border border-white/10 bg-black/30 px-4 py-3 outline-none focus:border-cyanGlow disabled:opacity-50" placeholder="Ask about deadlines, risks, compliance, or proposal strategy..." />
             <button disabled={loading || !input.trim() || !selected} className="grid h-12 w-12 place-items-center rounded-lg bg-cyanGlow text-white disabled:opacity-50" aria-label="Send"><Send className="h-5 w-5" /></button>
           </form>
@@ -112,7 +112,7 @@ const MessageBubble = memo(function MessageBubble({ message, loading }: { messag
   const isUser = message.role === 'user';
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-      <div className={`max-w-[86%] rounded-lg px-4 py-3 text-sm leading-6 shadow-sm md:max-w-[74%] ${isUser ? 'bg-cyanGlow text-white' : 'border border-white/10 bg-white/[0.045] text-slate-100'}`}>
+      <div className={`max-w-[92%] break-anywhere rounded-lg px-4 py-3 text-sm leading-6 shadow-sm md:max-w-[74%] ${isUser ? 'bg-cyanGlow text-white' : 'border border-white/10 bg-white/[0.045] text-slate-100'}`}>
         {message.content ? (
           <CleanMessage content={message.content} />
         ) : (

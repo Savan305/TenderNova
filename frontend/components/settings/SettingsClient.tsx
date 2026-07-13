@@ -37,13 +37,13 @@ export function SettingsClient({ initialData }: { initialData: SettingsData }) {
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[360px_1fr]">
+    <div className="grid gap-6 xl:grid-cols-[minmax(280px,360px)_1fr]">
       <aside className="glass rounded-lg p-5">
         <h2 className="font-semibold">Account Snapshot</h2>
         <div className="mt-4 space-y-3 text-sm text-slate-300">
-          <p><span className="text-slate-500">User:</span> {data.user?.name ?? 'Not set'}</p>
-          <p><span className="text-slate-500">Email:</span> {data.user?.email}</p>
-          <p><span className="text-slate-500">Role:</span> {data.user?.role ?? 'user'}</p>
+          <p className="break-anywhere"><span className="text-slate-500">User:</span> {data.user?.name ?? 'Not set'}</p>
+          <p className="break-anywhere"><span className="text-slate-500">Email:</span> {data.user?.email}</p>
+          <p className="break-anywhere"><span className="text-slate-500">Role:</span> {data.user?.role ?? 'user'}</p>
         </div>
       </aside>
 
@@ -117,7 +117,7 @@ function SettingsForm({ title, fields, onSubmit, actionLabel, loading, icon }: a
           </label>
         ))}
       </div>
-      <button disabled={loading} className="mt-4 inline-flex items-center gap-2 rounded-lg bg-cyanGlow px-4 py-3 font-semibold disabled:opacity-60">
+      <button disabled={loading} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cyanGlow px-4 py-3 font-semibold disabled:opacity-60 sm:w-auto">
         <Save className="h-4 w-4" /> {loading ? 'Saving...' : actionLabel}
       </button>
     </form>

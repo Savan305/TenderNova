@@ -70,9 +70,9 @@ export function TenderManager({ initialTenders }: { initialTenders: any[] }) {
 
       <div className="glass overflow-x-auto rounded-lg p-5">
         <h2 className="font-semibold">All tenders</h2>
-        <table className="mt-4 w-full text-left text-sm">
+        <table className="mt-4 min-w-[860px] w-full text-left text-sm">
           <thead className="text-slate-400"><tr><th className="py-3">Tender</th><th>Category</th><th>Deadline</th><th>Status</th><th>Risk</th><th>Actions</th></tr></thead>
-          <tbody>{filtered.map(tender => <tr key={tender.id} className="border-t border-white/10"><td className="py-3 font-medium">{tender.title}</td><td>{tender.category ?? 'General'}</td><td>{formatDate(tender.deadline)}</td><td><span className="rounded-full bg-white/10 px-2 py-1 text-xs">{tender.status}</span></td><td><RiskBadge level={riskLevel(tender)} /></td><td><TenderActions tender={tender} onUpdate={updateTender} onDelete={deleteTender} /></td></tr>)}</tbody>
+          <tbody>{filtered.map(tender => <tr key={tender.id} className="border-t border-white/10"><td className="max-w-[300px] break-words py-3 font-medium">{tender.title}</td><td className="break-words">{tender.category ?? 'General'}</td><td>{formatDate(tender.deadline)}</td><td><span className="rounded-full bg-white/10 px-2 py-1 text-xs">{tender.status}</span></td><td><RiskBadge level={riskLevel(tender)} /></td><td><TenderActions tender={tender} onUpdate={updateTender} onDelete={deleteTender} /></td></tr>)}</tbody>
         </table>
       </div>
     </div>
@@ -95,7 +95,7 @@ function TenderRow({ tender, onUpdate, onDelete }: { tender: any; onUpdate: (id:
 
 function TenderActions({ tender, onUpdate, onDelete }: { tender: any; onUpdate: (id: string, data: any) => void; onDelete: (id: string) => void }) {
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       <Link className="rounded-lg bg-white/10 px-3 py-2 text-xs" href={`/tenders/${tender.id}`}>View</Link>
       <button className="rounded-lg bg-white/10 px-3 py-2 text-xs" onClick={() => onUpdate(tender.id, { status: 'archived' })}>Archive</button>
       <button className="rounded-lg bg-roseGlow/15 px-3 py-2 text-xs text-rose-200" onClick={() => onDelete(tender.id)}>Delete</button>

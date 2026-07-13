@@ -22,17 +22,17 @@ export default async function TenderDetailPage({ params }: { params: { id: strin
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="mb-3 flex flex-wrap gap-2"><span className="rounded-full bg-indigoGlow/15 px-3 py-1 text-sm text-indigo-200">{tender.category ?? analysis.category ?? 'General'}</span><span className="rounded-full bg-cyanGlow/15 px-3 py-1 text-sm text-cyan-200">{days === null ? 'No deadline' : `${days} days left`}</span></div>
-          <h1 className="max-w-4xl text-3xl font-bold">{tender.title}</h1>
+          <h1 className="max-w-4xl break-anywhere text-2xl font-bold sm:text-3xl">{tender.title}</h1>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/proposals" className="inline-flex items-center gap-2 rounded-lg bg-indigoGlow px-4 py-2 font-semibold"><Sparkles className="h-4 w-4" /> Generate Proposal</Link>
-          <Link href="/chatbot" className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2"><MessageSquare className="h-4 w-4" /> Chat with AI</Link>
-          <button className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2"><Download className="h-4 w-4" /> Export</button>
+        <div className="grid w-full gap-2 sm:w-auto sm:grid-flow-col sm:auto-cols-max">
+          <Link href="/proposals" className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigoGlow px-4 py-2 font-semibold"><Sparkles className="h-4 w-4" /> Generate Proposal</Link>
+          <Link href="/chatbot" className="inline-flex items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-2"><MessageSquare className="h-4 w-4" /> Chat with AI</Link>
+          <button className="inline-flex items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-2"><Download className="h-4 w-4" /> Export</button>
         </div>
       </div>
       <Tabs.Root defaultValue="overview" className="space-y-5">
-        <Tabs.List className="flex flex-wrap gap-2 rounded-lg bg-white/5 p-2">
-          {['overview', 'eligibility', 'risks', 'requirements'].map(tab => <Tabs.Trigger key={tab} value={tab} className="rounded-lg px-4 py-2 text-sm capitalize text-slate-300 data-[state=active]:bg-white/10 data-[state=active]:text-white">{tab}</Tabs.Trigger>)}
+        <Tabs.List className="flex gap-2 overflow-x-auto rounded-lg bg-white/5 p-2">
+          {['overview', 'eligibility', 'risks', 'requirements'].map(tab => <Tabs.Trigger key={tab} value={tab} className="shrink-0 rounded-lg px-4 py-2 text-sm capitalize text-slate-300 data-[state=active]:bg-white/10 data-[state=active]:text-white">{tab}</Tabs.Trigger>)}
         </Tabs.List>
         <Tabs.Content value="overview" className="grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
           <div className="glass rounded-lg p-5"><h2 className="font-semibold">AI Summary</h2><p className="mt-3 leading-7 text-slate-300">{tender.summary ?? analysis.summary ?? 'Analysis is still running. Refresh shortly for AI insights.'}</p></div>
@@ -63,6 +63,6 @@ export default async function TenderDetailPage({ params }: { params: { id: strin
 
 function List({ title, items, icon }: { title: string; items: string[]; icon?: 'check' | 'x' }) {
   return (
-    <div className="glass rounded-lg p-5"><h3 className="font-semibold">{title}</h3><div className="mt-4 space-y-3">{items.length ? items.map(item => <div key={item} className="flex gap-3 text-sm text-slate-300">{icon === 'check' && <CheckCircle2 className="h-5 w-5 shrink-0 text-emeraldGlow" />}{icon === 'x' && <XCircle className="h-5 w-5 shrink-0 text-roseGlow" />}{!icon && <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyanGlow" />}<span>{item}</span></div>) : <p className="text-sm text-slate-500">No items found.</p>}</div></div>
+    <div className="glass rounded-lg p-5"><h3 className="font-semibold">{title}</h3><div className="mt-4 space-y-3">{items.length ? items.map(item => <div key={item} className="flex gap-3 text-sm text-slate-300">{icon === 'check' && <CheckCircle2 className="h-5 w-5 shrink-0 text-emeraldGlow" />}{icon === 'x' && <XCircle className="h-5 w-5 shrink-0 text-roseGlow" />}{!icon && <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyanGlow" />}<span className="break-anywhere">{item}</span></div>) : <p className="text-sm text-slate-500">No items found.</p>}</div></div>
   );
 }

@@ -46,14 +46,14 @@ export default function ProposalsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">AI Proposals</h1><p className="mt-1 text-slate-400">Create, edit, review, and print generated proposals.</p></div><button onClick={() => window.print()} className="no-print inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-3"><Download className="h-4 w-4" /> Download as PDF</button></div>
+      <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">AI Proposals</h1><p className="mt-1 text-slate-400">Create, edit, review, and print generated proposals.</p></div><button onClick={() => window.print()} className="no-print inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-3 sm:w-auto"><Download className="h-4 w-4" /> Download as PDF</button></div>
       <div className="no-print glass rounded-lg p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="font-semibold">Generate proposal</h2>
             <p className="mt-1 text-sm text-slate-400">{tenderId ? tenders.find(tender => tender.id === tenderId)?.title : 'Choose one tender below.'}</p>
           </div>
-          <button disabled={generating || !tenderId} onClick={generate} className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold disabled:opacity-60"><Sparkles className="h-4 w-4" /> {generating ? 'Generating...' : 'Generate Proposal'}</button>
+          <button disabled={generating || !tenderId} onClick={generate} className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigoGlow to-cyanGlow px-4 py-3 font-semibold disabled:opacity-60 sm:w-auto"><Sparkles className="h-4 w-4" /> {generating ? 'Generating...' : 'Generate Proposal'}</button>
         </div>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {tenders.map(tender => (
@@ -77,12 +77,12 @@ export default function ProposalsPage() {
             </button>
           ))}
         </div>
-        <div className="glass min-h-[640px] rounded-lg p-6">
+        <div className="glass min-h-[520px] rounded-lg p-4 sm:p-6 xl:min-h-[640px]">
           {!selected ? <div className="grid h-full place-items-center text-slate-400">Select a proposal to preview.</div> : (
             <div>
               <div className="no-print mb-5 flex justify-end gap-2"><button onClick={() => setEditing(v => !v)} className="rounded-lg bg-white/10 px-3 py-2 text-sm">Edit</button>{editing && <button onClick={save} className="inline-flex items-center gap-2 rounded-lg bg-cyanGlow px-3 py-2 text-sm font-semibold"><Save className="h-4 w-4" /> Save</button>}</div>
               {editing ? <textarea value={selected.content} onChange={event => setSelected({ ...selected, content: event.target.value })} className="min-h-[560px] w-full rounded-lg border border-white/10 bg-black/30 p-4 outline-none focus:border-cyanGlow" /> : (
-                <article className="proposal-document mx-auto max-w-4xl rounded-lg bg-white/[0.025] p-6 md:p-9">
+                <article className="proposal-document mx-auto max-w-4xl rounded-lg bg-white/[0.025] p-4 sm:p-6 md:p-9">
                   <ReactMarkdown components={{
                     h1: ({ children }) => <h1 className="mb-6 border-b border-white/10 pb-4 text-3xl font-bold leading-tight">{children}</h1>,
                     h2: ({ children }) => <h2 className="mb-3 mt-8 text-xl font-semibold text-cyan-100">{children}</h2>,

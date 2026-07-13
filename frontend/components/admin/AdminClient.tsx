@@ -108,7 +108,7 @@ export function AdminClient({ initialData }: { initialData: any }) {
         <div className="flex items-center gap-2"><KeyRound className="h-4 w-4 text-cyan-200" /><h2 className="font-semibold">API Management</h2></div>
         <ApiKeyForm loading={saving === 'apiKey'} onSave={saveApiKey} />
         <div className="mt-5 overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="min-w-[980px] w-full text-left text-sm">
             <thead className="text-slate-400"><tr><th className="py-3">Priority</th><th>Provider</th><th>Key</th><th>Status</th><th>Requests</th><th>Failed</th><th>Tokens</th><th>Limit/day</th><th>Actions</th></tr></thead>
             <tbody>
               {data.apiKeys.map((key: any) => <ApiKeyRow key={key.id} apiKey={key} onStatus={setApiKeyStatus} onDelete={deleteApiKey} onPriority={updateApiKeyPriority} />)}
@@ -121,7 +121,7 @@ export function AdminClient({ initialData }: { initialData: any }) {
       <section className="glass rounded-lg p-5">
         <h2 className="font-semibold">Authentication Monitoring</h2>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="min-w-[760px] w-full text-left text-sm">
             <thead className="text-slate-400"><tr><th className="py-3">Email</th><th>Provider</th><th>Status</th><th>Reason</th><th>Time</th></tr></thead>
             <tbody>
               {data.loginHistory.map((event: any) => <tr key={event.id} className="border-t border-white/10"><td className="py-3">{event.email}</td><td>{event.provider}</td><td className={event.success ? 'text-emerald-200' : 'text-rose-200'}>{event.success ? 'Success' : 'Failed'}</td><td>{event.reason ?? '-'}</td><td>{new Date(event.createdAt).toLocaleString()}</td></tr>)}
@@ -144,7 +144,7 @@ export function AdminClient({ initialData }: { initialData: any }) {
               <div key={job.id} className="rounded-lg bg-white/5 p-3 text-sm">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="font-medium">{job.tender?.title ?? job.type}</p>
+                    <p className="break-anywhere font-medium">{job.tender?.title ?? job.type}</p>
                     <p className="mt-1 text-xs text-slate-500">{job.user?.email} - {job.status} - {job.progress}%</p>
                     {job.error && <p className="mt-2 text-xs text-rose-200">{job.error}</p>}
                   </div>
@@ -193,13 +193,13 @@ export function AdminClient({ initialData }: { initialData: any }) {
 
 function ApiKeyForm({ loading, onSave }: any) {
   return (
-    <form action={onSave} className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_110px_120px_140px_auto]">
-      <input name="provider" defaultValue="mistral" className="h-11 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Provider" />
-      <input name="label" defaultValue="Mistral" className="h-11 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Label" />
-      <input name="value" type="password" className="h-11 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="New API key" />
-      <input name="priority" type="number" defaultValue={100} className="h-11 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Priority" />
-      <input name="tokenLimit" type="number" className="h-11 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Token cap" />
-      <input name="rateLimitPerDay" type="number" defaultValue={1000} className="h-11 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" />
+    <form action={onSave} className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-[1fr_1fr_1fr_110px_120px_140px_auto]">
+      <input name="provider" defaultValue="mistral" className="h-11 min-w-0 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Provider" />
+      <input name="label" defaultValue="Mistral" className="h-11 min-w-0 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Label" />
+      <input name="value" type="password" className="h-11 min-w-0 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="New API key" />
+      <input name="priority" type="number" defaultValue={100} className="h-11 min-w-0 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Priority" />
+      <input name="tokenLimit" type="number" className="h-11 min-w-0 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" placeholder="Token cap" />
+      <input name="rateLimitPerDay" type="number" defaultValue={1000} className="h-11 min-w-0 rounded-lg border border-white/10 bg-black/30 px-3 outline-none focus:border-cyanGlow" />
       <button disabled={loading} className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-cyanGlow px-4 font-semibold disabled:opacity-60"><Save className="h-4 w-4" /> Save</button>
     </form>
   );
